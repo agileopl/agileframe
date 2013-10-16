@@ -25,7 +25,7 @@ general:
         adapter: pdo_mysql
         host: localhost
         username: root
-        password: haslo
+        password: 
         dbname: agileframe
         default: true
         charset: utf8
@@ -38,7 +38,7 @@ general:
         adapter: pdo_mysql
         host: localhost
         username: root
-        password: haslo
+        password: 
         dbname: agileframe
         charset: utf8
         
@@ -60,24 +60,15 @@ general:
       domain: .agileframe.local
     social:
       facebook:
-        app_id: 508825305843600
-        app_secret: 3ee53cfb476d6e55816edcc4f93efac9
+        app_id: 
+        app_secret: 
         my_url: http://agileframe.local/profile/auth/fbconnect/
         scope: email,user_birthday,read_stream
-      disqus:
-        shortname: agileframedev
-        api_key: YOlmIjvBLiZAsh56cwTbMeUedauwoC0vRQTMQmBrGW14iAhCbxXOoamXAvTEMLi5
     previewChecker:
       salt: ewrfds215
     timedebuger: 1
     googleApi:
-      mapKey: AIzaSyAiook8x4kCoFTJIkrvqY2IhxIBwScsKHg
-    #cdnFiles:
-    #  css:
-    #    jqueryui: http://mds.agileframe.local/lcdn/jquery-ui-1.9.2.custom.min.css
-    #  js:
-    #    jquery: http://mds.agileframe.local/lcdn/jquery-1.7.2.min.js
-    #    jqueryui: http://mds.agileframe.local/lcdn/jquery-ui-1.9.2.custom.min.js
+      mapKey: 
 
       
 app:
