@@ -1,0 +1,176 @@
+--- configuracja agile cms
+
+general:
+
+  runMode: dev
+  
+  offlineMode: 1
+  
+  phpSettings:
+
+    display_startup_errors: 1
+    display_errors: 1
+    error_reporting: E_ALL | E_STRICT
+    
+    
+  resources:
+    
+    log:
+      stream:
+        filterParams:
+          priority: 8
+          
+    multidb:
+      master:
+        adapter: pdo_mysql
+        host: localhost
+        username: root
+        password: haslo
+        dbname: agileframe
+        default: true
+        charset: utf8
+      
+        profiler:
+          class: Agileo_Db_Profiler_Log
+          enabled: true
+    
+      slave:
+        adapter: pdo_mysql
+        host: localhost
+        username: root
+        password: haslo
+        dbname: agileframe
+        charset: utf8
+        
+        profiler:
+          class: Agileo_Db_Profiler_Log
+          enabled: true
+       
+    mail:
+      transport:
+        type: Zend_Mail_Transport_Sendmail
+
+       
+  globals:
+    host:
+      web: http://agileframe.local
+      cms: http://cms.agileframe.local
+      mds: http://mds.agileframe.local
+    cookie:
+      domain: .agileframe.local
+    social:
+      facebook:
+        app_id: 508825305843600
+        app_secret: 3ee53cfb476d6e55816edcc4f93efac9
+        my_url: http://agileframe.local/profile/auth/fbconnect/
+        scope: email,user_birthday,read_stream
+      disqus:
+        shortname: agileframedev
+        api_key: YOlmIjvBLiZAsh56cwTbMeUedauwoC0vRQTMQmBrGW14iAhCbxXOoamXAvTEMLi5
+    previewChecker:
+      salt: ewrfds215
+    timedebuger: 1
+    googleApi:
+      mapKey: AIzaSyAiook8x4kCoFTJIkrvqY2IhxIBwScsKHg
+    #cdnFiles:
+    #  css:
+    #    jqueryui: http://mds.agileframe.local/lcdn/jquery-ui-1.9.2.custom.min.css
+    #  js:
+    #    jquery: http://mds.agileframe.local/lcdn/jquery-1.7.2.min.js
+    #    jqueryui: http://mds.agileframe.local/lcdn/jquery-ui-1.9.2.custom.min.js
+
+      
+app:
+  _extends: general
+
+  translate:
+    cache:
+      lifeTime: 0
+
+  resources:
+    cachemanager:
+      app:
+        frontend:
+          options:
+            lifetime: 0
+            
+  router:
+    web:
+      cache:
+        lifeTime: 0
+    cuweb:
+      cache:
+        lifeTime: 0
+                    
+webapp:
+  _extends: app
+  
+  resources:
+    frontController:
+      params:
+        displayExceptions: 1
+
+  
+  layout:
+    cache:
+      lifeTime: 0
+      
+# +---------------------------------------------------------------------------+
+# | CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS |
+# +---------------------------------------------------------------------------+
+
+cms:
+  _extends: webapp
+
+
+  navigation:
+    cache:
+      lifeTime: 0
+  
+  acl:
+    cache:
+      lifeTime: 0
+      
+  globals:
+    copyright: '<span class="color">agile</span>frame</a> 0.1'
+
+# +---------------------------------------------------------------------------+
+# | WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB |
+# +---------------------------------------------------------------------------+
+
+web:
+  _extends: webapp
+
+  resources:
+    cachemanager:
+      pagecache:
+        frontend:
+          options:
+            lifetime: 0
+ 
+
+  globals:
+    copyright: 'Made by agileo.pl. Contact him at mkapinos@agileo.pl. Code licensed under the MIT License.<br>Based on <a href="http://framework.zend.com/">ZendFramework 1</a>, <a href="http://getbootstrap.com/">Twitter Bootstrap</a> and a lot of js plugins.'
+
+  navigation:
+    cache:
+      lifeTime: 0
+      
+  acl:
+    cache:
+      lifeTime: 0
+      
+# +---------------------------------------------------------------------------+
+# | MDS  Media Delivery Service  MDS  MDS  MDS  MDS  MDS  MDS  MDS  MDS  MDS  |
+# +---------------------------------------------------------------------------+
+
+mds:
+  _extends: general
+
+# +---------------------------------------------------------------------------+
+# | Scripts Scripts Scripts Scripts Scripts Scripts Scripts Scripts Scripts   |
+# +---------------------------------------------------------------------------+
+
+scripts:
+  _extends: app
+   

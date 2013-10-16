@@ -13,3 +13,4 @@ data/tmp/*
 data/upload/*
 mds/public/f/*
 mds/public/p/*
+configs/application-development.yaml
