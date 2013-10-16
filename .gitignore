@@ -1,5 +1,5 @@
-.projectdata
-/cache/cms/*
+.project
+data/cache/cms/*
 data/cache/mds/*
 data/cache/purifier/*
 data/cache/scripts/*
