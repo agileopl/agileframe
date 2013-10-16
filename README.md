@@ -28,10 +28,7 @@ agileframe
   In this situations you can treat table as bunch of 
   data and select the data by PK or by list PKs
 
-        
-
 > select * from articles join users on usr_id = art_usr_id ...*
-
          
 In some cases better solusions is use php:
          
