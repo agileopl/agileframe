@@ -1,5 +1,7 @@
+agileframe install
+==========
 
-1. Create rw dirs 
+**Create rw dirs**
 
 data/cache/cms/
 data/cache/mds/
@@ -16,21 +18,43 @@ data/upload/
 mds/public/f/
 mds/public/p/
 
-2. Create database and set config
+**Create database and set config**
 
 _db/agileframe.sql
 
-3. Virtual hosts
+**Set APPLICATION_EXTERNAL_LIBS and download libraries**
 
-<VirtualHost *:80>
-    DocumentRoot "/path/agileframe/web/public"
-    ServerName agileframe.local
-</VirtualHost>
-<VirtualHost *:80>
-    DocumentRoot "/path/agileframe/cms/public"
-    ServerName cms.agileframe.local
-</VirtualHost>
-<VirtualHost *:80>
-    DocumentRoot "/path/agileframe/mds/public"
-    ServerName mds.agileframe.local
-</VirtualHost>
+You need:
+
+* web/public/index.php
+
+> realpath(APPLICATION_EXTERNAL_LIBS . DIRECTORY_SEPARATOR . 'ZendFramework' . DIRECTORY_SEPARATOR . '1.12.0'),
+> realpath(APPLICATION_EXTERNAL_LIBS . DIRECTORY_SEPARATOR . 'PHPImageWorkshop' . DIRECTORY_SEPARATOR . '2.0'),
+> realpath(APPLICATION_EXTERNAL_LIBS . DIRECTORY_SEPARATOR . 'HTMLPurifier' . DIRECTORY_SEPARATOR . '4.4.0'),
+
+* cms/public/index.php
+
+> realpath(APPLICATION_EXTERNAL_LIBS . DIRECTORY_SEPARATOR . 'ZendFramework' . DIRECTORY_SEPARATOR . '1.12.0'),
+> realpath(APPLICATION_EXTERNAL_LIBS . DIRECTORY_SEPARATOR . 'HTMLPurifier' . DIRECTORY_SEPARATOR . '4.4.0'),
+> realpath(APPLICATION_EXTERNAL_LIBS . DIRECTORY_SEPARATOR . 'PHPImageWorkshop' . DIRECTORY_SEPARATOR . '2.0'),
+
+* mds/public/index.php
+
+> realpath(APPLICATION_EXTERNAL_LIBS . DIRECTORY_SEPARATOR . 'ZendFramework' . DIRECTORY_SEPARATOR . '1.12.0'),
+> realpath(APPLICATION_EXTERNAL_LIBS . DIRECTORY_SEPARATOR . 'PHPImageWorkshop' . DIRECTORY_SEPARATOR . '2.0'),
+
+
+**Virtual hosts**
+
+> <VirtualHost *:80>
+>     DocumentRoot "/path/agileframe/web/public"
+>     ServerName agileframe.local
+> </VirtualHost>
+> <VirtualHost *:80>
+>     DocumentRoot "/path/agileframe/cms/public"
+>     ServerName cms.agileframe.local
+> </VirtualHost>
+> <VirtualHost *:80>
+>     DocumentRoot "/path/agileframe/mds/public"
+>     ServerName mds.agileframe.local
+> </VirtualHost>
