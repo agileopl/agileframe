@@ -56,6 +56,11 @@ class ErrorController extends Zend_Controller_Action
 
     }
 
+    public function noauthAction()
+    {
+        
+    }
+    
     private function _getLog()
     {
         if (!Zend_Registry::isRegistered('log')) {

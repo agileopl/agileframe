@@ -48,7 +48,7 @@ general:
        
     mail:
       transport:
-        type: Zend_Mail_Transport_Mail
+        type: Zend_Mail_Transport_Sendmail
 
        
   globals:

@@ -89,6 +89,8 @@ class Agileo_Cms_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
                 $request->setControllerName('auth');
                 $request->setActionName('login');
             } else {
+                T::dump($request);
+                exit;
                 $request->setModuleName('default');
                 $request->setControllerName('error');
                 $request->setActionName('noauth');
