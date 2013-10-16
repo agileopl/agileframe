@@ -1,0 +1,25 @@
+<div class="alert alert-block">
+    <?php if ($this->errorCode == 404) : ?>
+        <h4>Błąd 404</h4>
+        Strona, której szukasz nie istnieje
+    <?php elseif ($this->errorCode == 401) : ?>
+        <h4>Błąd 401</h4>
+        Nie masz dostępu do tej strony
+    <?php else : ?>
+        <h4>Błąd <?php echo $this->errorCode; ?></h4>
+        Przepraszamy, usługa chwilowo niedostępna. Proszę spróbować poźniej lub wysłać maila na support@agileo.pl.
+    <?php endif; ?>
+</div>
+
+<? if (isset($this->exception)): ?>
+
+    <h3>Exception information:</h3>
+    <p><b>Message:</b> <?= $this->exception->getMessage() ?></p>
+
+    <h3>Stack trace:</h3>
+    <pre><?= $this->exception->getTraceAsString() ?></pre>
+
+    <h3>Request Parameters:</h3>
+    <pre><?= $this->escape(var_export($this->request->getParams(), true)) ?></pre>
+
+<? endif ?>

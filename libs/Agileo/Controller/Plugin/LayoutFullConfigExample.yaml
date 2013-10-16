@@ -1,0 +1,85 @@
+
+# kolumny i ich zawartosc
+layout:
+  container:
+    tag: div
+    attribs:
+      id: layout
+    container:
+      tag: div
+      attribs:
+        class: container
+  rows:
+    - 
+      container:
+        tag: div
+        attribs:
+          id: rowContent
+          class: row-fluid
+      columns:
+        - 
+          container:
+            tag: div
+            attribs:
+              class: span8
+              id: mainColumn
+          boxes:
+            content:
+              type: content
+              container:
+                tag: div
+                attribs:
+                  id: content
+            box1:
+              type: box
+              className: Test
+              module: marrow
+              container:
+                tag: div
+                attribs:
+                  class:  dboxes
+              params:
+                space: 100
+                default: 200
+        - 
+          container:
+            class: span4
+          boxes:
+            box2:
+              type: box
+              className: Test
+              module: marrow
+              container:
+                tag: div
+                attribs:
+                  class:  dboxes
+              params:
+                space: 100
+                default: 200
+
+            box3:
+              type: box
+              className: Test
+              module: marrow
+              container:
+                tag: div
+                attribs:
+                  class: dboxes
+              params:
+                space: 300
+                default: 400
+  
+segments:
+  box4:
+    type: box
+    className: Test
+    module: marrow
+    container:
+      tag: div
+      attribs:
+        class: dboxes
+    params:
+      space: 500
+      default: 600
+
+

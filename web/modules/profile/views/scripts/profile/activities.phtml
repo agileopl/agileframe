@@ -1,0 +1,63 @@
+
+<?if(!empty($this->alert) && $this->alert == 'noLogget'):?>
+    <div class="alert alert-info alert-block">Aby zobaczyć aktywności musisz się zalogować</div>    
+<?elseif(!empty($this->alert) && $this->alert == 'noObserved'):?>
+    <div class="alert alert-info alert-block">Aby zobaczyć aktywności musisz najpierw zacząć obserwować...</div>
+<?else:?>
+
+    <? if(!empty($this->activitiesPager)) : ?>
+
+        <div id="profile-activities" class="itemsList cols2">
+        <? $i=0; foreach ($this->activitiesPager->getCurrentItems() as $activity) : ?>
+            <? if($activity->hasOriginalObject() && $activity->hasSubObject('User')) : ?>
+            <? 
+            $object = $activity->getOriginalObject(); 
+            $user = $activity->getSubObject('User');
+            
+            if($i) :
+                echo '<hr/>';
+            endif;
+            ?>
+            <div class="il-list-item">
+            
+                <div class="il-top clearfix">
+                    <div class="il-col23 il-date <?= strtolower($activity->type);?>">
+                    <?= $this->prettyDate($activity->create_date);?> <?= $this->translate('activity_type_'.strtolower($activity->type));?>
+                    </div>
+                </div>
+            
+                <div class="il-content clearfix">
+                    <? if(!empty($object->att_thumb)) :?>
+                    <div class="il-col2">
+                        <div class="thumbMediaInfo">
+                            <div class="thumbMediaIcons">
+                            <?= !empty($object->att_has_photos) ? '<i class="icon-camera"></i>' : '';?>
+                            <?= !empty($object->att_has_videos) ? '<i class="icon-play"></i>' : '';?>
+                            </div>
+                            <?$thumbSize = !empty($object->att_thumb_crop) ?  array('crop' => $object->att_thumb_crop, 'resize' => '196x109') : array('crop' => 'MT', 'resize' => '196x109');?>
+                            <a href="<?=$object->getPublicUrl();?>"><?= $this->mdsImage($object->att_thumb, array_merge($thumbSize, array('content' => $object->title)));?></a>
+                        </div>
+                    </div>
+                    <div class="il-col3">
+                    
+                    <? else :?>
+                    <div class="il-col23">
+                    <? endif;?>
+                    
+                        <h2><a href="<?=$object->getPublicUrl();?>"><?=$object->title;?></a></h2>
+                        <p><a href="<?=$object->getPublicUrl();?>"><?=$object->lead;?></a></p>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <? endif;?>
+        <? $i++; endforeach; ?>
+        </div>
+        
+        <?= $this->paginationControl($this->activitiesPager); ?>
+        
+    <? else:?>
+        <div class="alert alert-info alert-block"><?= $this->translate('pager_no_results');?></div>
+    <?endif;?>
+<?endif;?>

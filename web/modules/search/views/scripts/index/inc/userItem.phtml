@@ -1,0 +1,25 @@
+<div class="il-list-item">
+
+    <div class="il-content clearfix">
+        <div class="il-col1">
+            <?if($this->user->avatar):?>
+                <a href="<?=$this->user->getPublicUrl();?>"><?= $this->mdsImage($this->user->avatar, array('resize' => '100x100', 'content' => $this->user));?></a>
+            <?endif;?>
+        </div>
+        <div class="il-col23">
+            <h2><a href="<?=$this->user->getPublicUrl();?>">
+                <?if($this->user->isSocFacebook()) :?>
+                    <i class="icon-facebook-sign icon-i"></i>
+                <?endif;?>
+                <?=$this->user;?>
+                </a></h2>
+            <p><a href="<?=$this->user->getPublicUrl();?>">
+                <? if(!empty($this->user->stat_blogit_count)):?>
+                <?= $this->user->stat_blogit_count.' '.$this->numberLabel($this->user->stat_blogit_count, 'artykuł', 'artykuły', 'artykułów');?>
+                <?endif;?>
+            </a></p>
+        </div>
+            
+    </div>
+    
+</div>

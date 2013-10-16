@@ -1,0 +1,98 @@
+/* 
+    Site rules 
+    here is place to set default styles for tinymce    
+*/
+
+
+/* TinyMCE specific rules */
+body.mceContentBody {
+    /* background: blue; */
+}
+
+.mceContentBody a {
+    /* background: blue; */
+}
+
+.att-left,
+.att-right,
+.att-center,
+.att-gallery,
+.att-vv,
+.att-youtube,
+.quiz-left,
+.quiz-right,
+.quiz-center,
+.article-left,
+.article-right,
+.article-center,
+.att-file
+ {
+    border: 1px dotted silver;
+    padding: 5px;
+    padding-right: 18px;
+    background-image: url('../img/tinymce-content-sprite.png');
+    background-position: top right;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    text-align: center;
+}
+
+.quiz-left img,
+.quiz-right img,
+.quiz-center img,
+.article-left img,
+.article-right img,
+.article-center img
+{
+    display: block;
+}
+
+.att-left,
+.quiz-left,
+.article-left{
+    float: left;
+    margin: 0 10px 10px 0;
+}
+.att-right,
+.quiz-right,
+.article-right{
+    float: right;
+    margin:0 0 10px 10px;
+}
+
+.quiz-center,
+.article-center,
+.att-center,
+.att-gallery,
+.att-vv,
+.att-youtube{
+    margin: 10px auto;
+    margin-bottom: 10px;
+    display: block;
+    clear: both;
+    text-align: center;
+}
+
+.att-gallery {
+    background-color: #ededed;
+    padding: 10px 10px 20px 10px; 
+}
+.att-gallery img{
+    -moz-box-shadow: 3px 3px 1px #dae370, 5px 5px 1px #cc6c92, 7px 7px 1px #6cb1cc;
+    -webkit-box-shadow: 3px 3px 1px #dae370, 5px 5px 1px #cc6c92, 7px 7px 1px #6cb1cc;
+    box-shadow: 3px 3px 1px #dae370, 5px 5px 1px #cc6c92, 7px 7px 1px #6cb1cc;
+}
+
+.att-vv,
+.att-youtube {
+    background-color: #e1f0ff;
+    padding: 20px 10px 20px 10px; 
+}
+.att-vv,
+.att-youtube img{
+    border-bottom: 5px solid #b91f1f;
+    -moz-box-shadow: 0 0 0 10px black;
+    -webkit-box-shadow: 0 0 0 10px black;
+    box-shadow: 0 0 0 10px black;
+}
+

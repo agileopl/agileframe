@@ -1,0 +1,532 @@
+--- #web routes
+
+routes:
+
+  home:
+    route: index,([a-z-]+).html
+    reverse: index,%s.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults:
+      module: default
+      controller: index
+      action: index
+      lg: pl
+      regionSlug: polska
+    map:
+      regionSlug: 1
+
+  search: 
+    route: szukaj,([^,]+),([0-9]+).html
+    reverse: szukaj,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: search
+      controller: index
+      action: results
+      lg: pl
+      regionSlug: polska
+      page: 1
+    map: 
+      regionSlug: 1
+      page: 2
+
+  tag: 
+    route: tag,([^,]+),([0-9]+).html
+    reverse: tag,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: search
+      controller: index
+      action: tags
+      lg: pl
+      page: 1
+    map: 
+      tag: 1
+      page: 2
+
+  location: 
+    route: lokalizacja,([^,]+),([0-9]+),([0-9]+).html
+    reverse: lokalizacja,%s,%d,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: search
+      controller: index
+      action: location
+      lg: pl
+      page: 1
+    map: 
+      locationSlug: 1
+      communyId: 2
+      page: 3
+
+  users: 
+    route: mieszkancy,([a-z-]+),(najaktywniejsi|najpopularniejsi|aktywnosc|przystapienie|alfabetycznie),([0-9]+).html
+    reverse: mieszkancy,%s,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: profile
+      controller: index
+      action: list
+      lg: pl
+      regionSlug: polska
+      sort: najaktywniejsi
+      page: 1
+    
+    map: 
+      regionSlug: 1
+      sort: 2
+      page: 3
+
+  customers: 
+    route: gminy-i-powiaty,([a-z-]+),(najaktywniejsze|najpopularniejsze|aktywnosc|przystapienie|alfabetycznie),([0-9]+).html
+    reverse: gminy-i-powiaty,%s,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: customer
+      controller: index
+      action: index
+      regionSlug: polska
+      sort: najaktywniejsze
+      lg: pl
+      page: 1
+    
+    map: 
+      regionSlug: 1
+      sort: 2
+      page: 3
+      
+  organizations: 
+    route: organizacje,([a-z-]+),(najaktywniejsze|najpopularniejsze|aktywnosc|przystapienie|alfabetycznie),([0-9]+).html
+    reverse: organizacje,%s,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: customer
+      controller: index
+      action: organizations
+      regionSlug: polska
+      sort: najaktywniejsze
+      lg: pl
+      page: 1
+    
+    map: 
+      regionSlug: 1
+      sort: 2
+      page: 3
+  
+  map: 
+    route: mapa,([a-z-]+),([0-9]+).html
+    reverse: mapa,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: article
+      controller: index
+      action: map
+      regionSlug: polska
+      lg: pl
+      page: 1
+    
+    map: 
+      regionSlug: 1
+      page: 2
+      
+  articles: 
+    route: artykuly,([a-z-]+),([0-9]+).html
+    reverse: artykuly,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: article
+      controller: index
+      action: articles.list
+      regionSlug: polska
+      lg: pl
+      page: 1
+    
+    map: 
+      regionSlug: 1
+      page: 2
+
+  articleById: 
+    route: artykul,([^,]*),([0-9]+).html
+    reverse: artykul,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: article
+      controller: index
+      action: article.item
+      lg: pl
+    
+    map: 
+      artTitle: 1
+      id: 2
+
+  events: 
+    route: wydarzenia,([a-z-]+),([0-9]+).html
+    reverse: wydarzenia,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: article
+      controller: index
+      action: events.list
+      lg: pl
+      regionSlug: polska
+      page: 1
+    
+    map: 
+      regionSlug: 1
+      page: 2
+
+  eventById: 
+    route: wydarzenie,([^,]*),([0-9]+).html
+    reverse: wydarzenie,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: article
+      controller: index
+      action: event.item
+      lg: pl
+    
+    map: 
+      artTitle: 1
+      id: 2
+      
+  photos: 
+    route: galerie,([a-z-]+),([0-9]+).html
+    reverse: galerie,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: article
+      controller: index
+      action: photos.list
+      lg: pl
+      regionSlug: polska
+      page: 1
+    map: 
+      regionSlug: 1
+      page: 2
+
+  photoById: 
+    route: galeria,([^,]*),([0-9]+).html
+    reverse: galeria,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: article
+      controller: index
+      action: photo.item
+      lg: pl
+    map: 
+      artTitle: 1
+      id: 2
+      
+  videos: 
+    route: videos,([a-z-]+),([0-9]+).html
+    reverse: videos,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: article
+      controller: index
+      action: videos.list
+      lg: pl
+      regionSlug: polska
+      page: 1
+    
+    map: 
+      regionSlug: 1
+      page: 2
+
+  videoById: 
+    route: video,([^,]*),([0-9]+).html
+    reverse: video,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: article
+      controller: index
+      action: video.item
+      lg: pl
+    
+    map: 
+      artTitle: 1
+      id: 2
+      
+  blogArticles:
+    route: artykuly,([0-9]+),([^,]*),([0-9]+).html
+    reverse: artykuly,%d,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: blog
+      controller: index
+      action: articles.list
+      lg: pl
+      page: 1
+    
+    map: 
+      page: 1
+      nick: 2
+      usrId: 3
+      
+  blogArticleById: 
+    route: artykul,([^,]*),([0-9]+),([^,]*),([0-9]+).html
+    reverse: artykul,%s,%d,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: blog
+      controller: index
+      action: article.item
+      lg: pl
+    
+    map: 
+      artTitle: 1
+      id: 2
+      nick: 3
+      usrId: 4
+      
+  blogEvents:
+    route: wydarzenia,([0-9]+),([^,]*),([0-9]+).html
+    reverse: wydarzenia,%d,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: blog
+      controller: index
+      action: events.list
+      lg: pl
+      page: 1
+    
+    map: 
+      page: 1
+      nick: 2
+      usrId: 3
+      
+  blogEventById: 
+    route: wydarzenie,([^,]*),([0-9]+),([^,]*),([0-9]+).html
+    reverse: wydarzenie,%s,%d,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: blog
+      controller: index
+      action: event.item
+      lg: pl
+    
+    map: 
+      artTitle: 1
+      id: 2
+      nick: 3
+      usrId: 4 
+     
+  blogPhotos:
+    route: zdjecia,([0-9]+),([^,]*),([0-9]+).html
+    reverse: zdjecia,%d,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: blog
+      controller: index
+      action: photos.list
+      lg: pl
+      page: 1
+    
+    map: 
+      page: 1
+      nick: 2
+      usrId: 3
+      
+  blogPhotoById: 
+    route: galeria,([^,]*),([0-9]+),([^,]*),([0-9]+).html
+    reverse: galeria,%s,%d,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: blog
+      controller: index
+      action: photo.item
+      lg: pl
+    map: 
+      artTitle: 1
+      id: 2
+      nick: 3
+      usrId: 4 
+     
+  blogVideos:
+    route: wideo,([0-9]+),([^,]*),([0-9]+).html
+    reverse: wideo,%d,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: blog
+      controller: index
+      action: videos.list
+      lg: pl
+      page: 1
+    
+    map: 
+      page: 1
+      nick: 2
+      usrId: 3
+      
+  blogVideoById: 
+    route: video,([^,]*),([0-9]+),([^,]*),([0-9]+).html
+    reverse: video,%s,%d,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: blog
+      controller: index
+      action: video.item
+      lg: pl
+      
+    map: 
+      artTitle: 1
+      id: 2
+      nick: 3
+      usrId: 4 
+
+  user: 
+    route: uzytkownik,([^,]+),([0-9]+).html
+    reverse: uzytkownik,%s,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: profile
+      controller: profile
+      action: index
+      lg: pl
+    
+    map: 
+      nick: 1
+      usrId: 2
+
+  userActivities: 
+    route: aktywnosci,([^,]+),([0-9]+),([0-9]+).html
+    reverse: aktywnosci,%s,%d,%d.html
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: profile
+      controller: profile
+      action: activities
+      lg: pl
+      page: 1
+    
+    map: 
+      nick: 1
+      usrId: 2
+      page: 3
+      
+  userLogin: 
+    route: /login
+    type: Zend_Controller_Router_Route_Static
+    defaults: 
+      module: profile
+      controller: auth
+      action: login
+      lg: pl
+
+      
+  sendMail2User: 
+    route: napisz-do,([^,]+),([0-9]+)
+    reverse: napisz-do,%s,%d
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: profile
+      controller: mail
+      action: send
+      lg: pl
+    
+    map: 
+      nick: 1
+      usrId: 2
+
+#### Marrow
+
+  marrowNodeById: 
+    route: ([^,]*),([0-9]+).nhtm
+    reverse: %s,%d.nhtm
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: marrow
+      controller: index
+      action: node
+      lg: pl
+    
+    map: 
+      title: 1
+      nodeId: 2
+      
+  
+  marrowNodeByUri: 
+    route: ([^.,]*).nhtm
+    reverse: %s.nhtm
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: marrow
+      controller: index
+      action: node
+      lg: pl
+    
+    map: 
+      uri: 1
+      
+  
+  marrowNodeListById: 
+    route: ([^,]*),([0-9]+),([0-9]+).lhtm
+    reverse: %s,%d,%d.lhtm
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: marrow
+      controller: index
+      action: node
+      lg: pl
+      page: 1
+    
+    map: 
+      title: 1
+      nodeId: 2
+      page: 3
+      
+  
+  marrowNodeListByUri: 
+    route: ([^.,]*),([0-9]+).lhtm
+    reverse: %s,%d.lhtm
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: marrow
+      controller: index
+      action: node
+      lg: pl
+      page: 1
+    
+    map: 
+      uri: 1
+      page: 2
+      
+  
+  marrowContentById: 
+    route: ([^,]*),([0-9]+),([^,]*),([0-9]+).chtm
+    reverse: %s,%d,%s,%d.chtm
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: marrow
+      controller: index
+      action: content
+      lg: pl
+    
+    map: 
+      nodeTitle: 1
+      nodeId: 2
+      title: 3
+      contentId: 4
+      
+  
+  marrowContentByUri: 
+    route: ([^.,]*).chtm
+    reverse: %s.chtm
+    type: Zend_Controller_Router_Route_Regex
+    defaults: 
+      module: marrow
+      controller: index
+      action: content
+      lg: pl
+    
+    map: 
+      uri: 1
+
+  paragonoList: 
+    route: /paragono/index/list
+    type: Zend_Controller_Router_Route_Static
+    defaults: 
+      module: paragono
+      controller: index
+      action: list
+      lg: pl

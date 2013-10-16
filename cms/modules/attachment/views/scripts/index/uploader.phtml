@@ -1,0 +1,61 @@
+
+<h1>
+    <?= $this->translate('att_uploader_type'.(!empty($this->type) ? '_'.strtolower($this->type) : '') . '_h1');?>
+</h1>
+
+
+<form method="post" enctype="multipart/form-data">
+    
+<input style="display: none;" id="fileupload" type="file" name="uploader_att_url" data-url="/attachment/index/upload.file/type/image" multiple>
+<a class="btn btn-primary" onclick="$('input[id=fileupload]').click()"><?= $this->translate('att_uploader_type'.(!empty($this->type) ? '_'.strtolower($this->type) : '').'_button_add');?></a>
+</form>
+
+<div id="jProgress" class="progress uploadProgress">
+    <div class="bar" style="width: 0%;"></div>
+</div>
+
+<form id="jUploadedForm" class="form-inline" action="<?= $_SERVER['REQUEST_URI'];?>" method="post">
+    
+<div id="jResults" class="hide">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Plik</th>
+                <th>Opis</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    
+    <button class="btn btn-success">
+        <? if(!empty($this->parent)) : ?>
+        <?= $this->translate('attachment_save_and_link');?>
+        <? else : ?>
+        <?= $this->translate('modal_close');?>
+        <?= $this->translate('submit_save');?>
+        <? endif;?>
+    </button>
+    
+</div>
+
+
+<? if($this->isPopup) : ?>
+    <button name="return" id="return" type="button" value="1" class="btn btn-link"><?= $this->translate('modal_close');?></button>
+<? else : ?>
+    <button name="return" id="return" type="button" value="1" class="btn btn-link"><?= $this->translate('submit_return');?></button>
+<? endif;?>
+
+</form>
+
+<? $this->headScript()->appendFile('/file_uploader/js/jquery.iframe-transport.js');?>
+<? $this->headScript()->appendFile('/file_uploader/js/jquery.fileupload.js');?>
+<? $this->inlineScript()->appendScript($this->render('index/uploader.js')); ?>
+
+<? if($this->isPopup) : ?>
+    <? $this->inlineScript()->appendScript($this->render('index/uploader-popup.js')); ?>
+<? endif;?>
+
+

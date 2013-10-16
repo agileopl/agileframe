@@ -1,0 +1,19 @@
+
+<h1><?= $this->translate('attachment_h1_edit');?></h1>
+
+<? $this->form->setAction($this->url()); ?>
+
+<?= $this->form; ?>
+
+<?= $this->jForm('jAdminForm'); ?>
+
+<? if($this->isPopup) : ?>
+    <? $this->inlineScript()->appendScript("
+    $(function () {
+        $('#jClose').click(function() { 
+            parent.attachmentEditCallback();
+            return false; 
+        });
+    });
+    "); ?>
+<? endif;?>

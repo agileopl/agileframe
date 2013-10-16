@@ -1,0 +1,74 @@
+<?= $this->doctype('HTML5'); ?>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <?
+
+    $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html; charset=UTF-8')->appendHttpEquiv('Content-Language', 'pl_PL');
+
+    $pages = $this->navigation()->findAllBy('active', true);
+    $activePage = end($pages);
+    if ($activePage && !$this->headTitle()->count()) {
+
+        if (isset($activePage->id) && $activePage->id != 'menu_home') {
+            $addPageInfo = '';
+            if ($page = Zend_Controller_Front::getInstance()->getRequest()->getParam('page')) {
+                $addPageInfo = $this->translate('seo_page_info', $page);
+            }
+            $this->headTitle(htmlspecialchars_decode($this->translate($activePage->get('label')) . $addPageInfo, ENT_QUOTES));
+        }
+
+        while ($parent = $activePage->getParent()) {
+            if (isset($parent->id) && $parent->id != 'menu_home') {
+                $this->headTitle()->append(htmlspecialchars_decode($this->translate($parent->get('label')), ENT_QUOTES));
+                $activePage = $parent;
+            } else {
+                break;
+            }
+        }
+    }
+
+    $this->headTitle()->append($this->translate('default_title'));
+    $this->headTitle()->setSeparator(' - ');
+    echo $this->headTitle();
+
+    echo $this->headMeta();
+
+    include_once realpath(dirname(__FILE__) . '/_headLS.php');
+
+    echo $this->headLink();
+    
+        ?>
+        <style>
+            <? 
+            $bg = '';
+            if(Zend_Auth::getInstance()->hasIdentity()) : 
+                if(!empty(Zend_Auth::getInstance()->getIdentity()->cms_bg)) :
+                    $bg = Zend_Auth::getInstance()->getIdentity()->cms_bg;
+                endif;
+            endif;
+            $bg = !empty($bg) ? (substr($bg,0,5) == '/img/' ? $bg : $this->mdsImage($bg)) : Zend_Registry::get('config')->globals->host->mds . Zend_Registry::get('config')->globals->mds->cms . '/img/bg/pattern8-pattern70b.png';
+            ?>
+            body {
+                background-image: url('<?=$bg;?>');   
+            }
+        </style>
+    </head>
+
+    <body class="login">
+        
+        <div class="container">
+            <img class="logo" src="<?= Zend_Registry::get('config')->globals->host->mds . Zend_Registry::get('config')->globals->mds->cms;?>/img/agilecms.png" />
+            <?= $this->layout()->content ?>
+        </div>
+
+        <?= $this->headScript(); ?>
+        <?= $this->inlineScript() ?>
+
+    </body>
+</html>

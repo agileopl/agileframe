@@ -1,0 +1,128 @@
+--- #nawigacja w CMS
+
+
+navigation:
+  
+  home:
+    id: home
+    icon: icon-home
+    label: navi_home
+    module: default
+    controller: index
+    action: index
+    bgcolorFrom: 2d89ee
+    bgcolorTo: 368cf2
+    hoverColor: 8cc3ff
+    
+    pages:
+
+
+      user:
+        label: navi_user
+        icon: icon-group
+        module: user
+        controller: manage
+        action: users.list
+        id: users_list
+        bgcolorFrom: 069205
+        bgcolorTo: 1e971a
+        hoverColor: daffda
+        order: 1    
+
+      attachments:
+        label: navi_attachment
+        icon: icon-camera
+        module: attachment
+        controller: index
+        action: list
+        id: attach_list
+        bgcolorFrom: bc1d49
+        bgcolorTo: c1345b
+        hoverColor: ffc5d5
+        order: 1
+        
+      settings:
+        label: navi_settings
+        icon: icon-cogs
+        module: admin
+        controller: index
+        action: list
+        bgcolorFrom: 613abb
+        bgcolorTo: 5d39b9
+        hoverColor: e6dbff
+        order: 1
+
+        pages:
+
+          admin:
+            label: navi_admin
+            icon: icon-user
+            module: admin
+            controller: index
+            action: list
+            id: admin_list
+            order: 1
+
+      test:
+        label: navi_test
+        module: default
+        controller: test
+        action: index
+        icon: icon-ambulance
+        id: test
+        bgcolorFrom: 9c00a4
+        bgcolorTo: a000a7
+        hoverColor: fdd4ff
+        
+        pages:
+
+          test_examples:
+            label: navi_test_examples
+            module: default
+            controller: test
+            action: examples
+            icon: icon-stethoscope
+            
+          test_icons:
+            label: navi_test_icons
+            module: default
+            controller: test
+            action: icons
+            icon: icon-picture
+            
+          test_search:
+            label: navi_test_search
+            module: default
+            controller: test
+            action: search.index
+            icon: icon-picture
+          
+    
+      start:
+        label: navi_home_start
+        module: default
+        controller: index
+        action: index
+        visible: 0
+
+      login:
+        label: navi_home_login
+        module: admin
+        controller: index
+        action: login
+        visible: 0
+        
+        
+--- COLORY
+--- ;Orange dc532a,d5502c,ffd8cd
+--- ;darkblue 3a15b3,3c17b6,e3daff
+--- lightpink ff2e6b,ff3c75,ffe5ed
+--- yellow fed313,ffe819,fffce5
+---
+---
+---
+---
+---
+---
+---
+  

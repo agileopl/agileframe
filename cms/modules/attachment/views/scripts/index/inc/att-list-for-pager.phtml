@@ -1,0 +1,52 @@
+<? if(!empty($this->pager) && count($this->pager) > 0) : ?>
+
+    <ul class="images-list images-list-150 sortable">
+        <? foreach ($this->pager->getCurrentItems() as $item) : ?>
+        <li id="iAtt<?= $item->id;?>" data-id="<?= $item->id;?>" data-url="<?= $item->url;?>"<?if($item->isImage()):?> data-thumb="<?= $this->mdsImage($item, array('resize' => '240x240')); ?>"<?endif;?>>
+            <div class="item">
+                <? if(empty($this->noActions)) :?>
+                <div class="pull-left">
+                    <?if(!$item->isActive()):?>
+                        <?if($item->isNew()):?>
+                            <span class="label label-info"><?= $this->translate('att_type_new');?></span>
+                        <?elseif($item->isBlocked()):?>
+                            <span class="label label-warning"><?= $this->translate('att_type_blocked');?></span>
+                        <?elseif($item->isTransforming()):?>
+                            <span class="label label-inverse"><?= $this->translate('att_type_transforming');?></span>
+                        <?elseif($item->isError()):?>
+                            <span class="label label-important"><?= $this->translate('att_type_error');?></span>
+                        <?endif;?>    
+                    <?endif;?>
+                </div>
+                <div class="pull-right">
+                    <a class="jIDownload" href="<?= $this->mdsAttachment($item); ?>" target="_blank"><i class="icon-file"></i></a>
+                    <a class="jIEdit" href="#" data-id="<?= $item->id;?>"><i class="icon-edit"></i></a>
+                    <a class="jIDelete" data-id="<?= $item->id;?>" class="delete" href="#"><i class="icon-remove"></i></a>
+                </div>
+                <div class="clearfix"></div>
+                <? endif;?>
+                
+                <?if($item->isImage()):?>
+                    <img src="<?= $this->mdsImage($item, array('resize' => '150x150')); ?>" title="<?= $this->escape($item->description);?>" />
+                    <span><?= $this->escape($item->name);?></span>
+                <?elseif($item->isVideo()):?>
+                    <?= $this->mdsVideoThumb($item, array('resize' => '0x150')); ?>
+                    <span><?= $this->escape($item->name);?></span>
+                <?else:?>
+                <div class="info">
+                    <i class="icon-file"></i>
+                    <span><?= $this->escape($item->name);?></span>
+                </div>
+                <?endif?>
+            </div>
+        </li>
+        <? endforeach; ?>
+    </ul>
+    <div class="clearfix"></div>
+    <?= $this->paginationControl($this->pager); ?>
+
+<? else:?>
+
+    <div class="alert alert-info alert-block"><?= $this->translate('pager_no_results');?></div>
+    
+<? endif;?>

@@ -1,0 +1,70 @@
+
+# kolumny i ich zawartosc
+layout:
+  container:
+    tag: div
+    attribs:
+      id: profile-index
+      class: profile-layout
+
+  rows:
+    - 
+      container:
+        attribs:
+          class: row-fluid
+      columns:
+        - 
+          container:
+            attribs:
+              class: span12
+          boxes:
+            userTopInfo:
+              type: box
+              className: PublicInfo
+              module: profile
+              container:
+                tag: div
+                attribs:
+                  class:  dboxes
+    - 
+      container:
+        attribs:
+          class: row-fluid
+      columns:
+        - 
+          container:
+            attribs:
+              id: content
+              class: span6
+          boxes:
+            ProfileDescription:
+              type: box
+              className: ProfileDescription
+              module: profile
+              container:
+                tag: div
+                attribs:
+                  class: dboxes
+
+            ProfileMap:
+              type: box
+              className: ProfileMap
+              module: profile
+              container:
+                tag: div
+                attribs:
+                  class: dboxes
+        - 
+          container:
+            attribs:
+              class: span6
+          boxes:
+
+            ProfileWell:
+              type: box
+              className: ProfileWell
+              module: profile
+              container:
+                tag: div
+                attribs:
+                  class: dboxes

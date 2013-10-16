@@ -1,0 +1,78 @@
+--- #acl w CMS
+
+acl:
+  
+  #
+  # Role
+  #
+  rules:
+    - 
+      id: guest
+    - 
+      id: user
+      parent: guest
+    - 
+      id: admin
+      parent: user
+  
+  #
+  # Zasoby
+  #
+  resources:
+    
+    - mc-default-error
+    - mc-default-index
+    - mc-default-test
+    - mc-default-auth
+    - mc-admin-index
+    - mc-admin-settings
+    
+    - mc-marrow-index
+    - mc-marrow-content
+    - mc-marrow-content.external
+    - mc-marrow-node
+    - mc-marrow-plugin
+    
+    - mc-attachment-index
+    - mc-attachment-user.tinyplugin
+    
+    - mc-customer-index
+    - mc-customer-article
+    
+    - mc-article-manage
+    - mc-article-user.tinyplugin
+    
+    - mc-blog-manage
+    
+    - mc-location-ep
+    - mc-location-service
+    
+    - mc-quiz-index
+    - mc-quiz-user.tinyplugin
+    
+    - mc-homepage-index
+    
+    - mc-user-manage
+    - mc-user-blog.item
+
+  #
+  # Dostęp
+  #
+  accesses:
+    
+    all:
+      - 
+        resource: mc-default-error
+
+    guest:
+      - 
+        resource: mc-default-auth
+        privilages:
+          - login
+      
+    user:
+      - 
+        resource: mc-default-test
+        privilages:
+          - index
+        

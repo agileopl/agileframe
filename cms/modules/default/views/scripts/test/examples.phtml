@@ -1,0 +1,46 @@
+
+<div id="welcome">
+
+    <div class="btn-group">
+    <button class="btn dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="?test=1">Action</a></li>
+      <li><a href="?test=2">Another action</a></li>
+      <li><a href="?test=3">Something else here</a></li>
+    </ul>
+  </div>
+              
+
+    <h1>Welcome to the test Agiframe</h1>
+
+    <h3>Object: <?= $this->test->getTitle()?></h3>
+    <h4>Object data:</h4>
+    <pre><? var_dump($this->test->toArray());?></pre>
+    <h4>Filtered data</h4>
+    <pre><? var_dump($this->test->getValidData());?></pre>
+
+    <h3>Object collection</h3>
+    <div id="more-information">
+        <ul>
+            
+            <? foreach($this->collection as $item) : ?>
+                <li><?= $item->id?>: <?= $item->title?></li>
+            <? endforeach; ?>    
+            
+        </ul>
+    </div>
+    
+    <h3>Translate:</h3>
+    <?= $this->translate('test')?>
+    <?= $this->translate('test2')?>
+    
+
+    <h3>Filter form:</h3>
+    <?= $this->searchForm ?>
+
+    
+    <h3>Form with jvalidator:</h3>
+    <?= $this->form ?>
+    <?= $this->jForm('TestItem'); ?>
+    
+</div>

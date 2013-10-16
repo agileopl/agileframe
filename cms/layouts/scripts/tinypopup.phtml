@@ -1,0 +1,48 @@
+<?= $this->doctype('HTML5'); ?>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <?
+
+    $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html; charset=UTF-8')->appendHttpEquiv('Content-Language', 'pl_PL');
+
+    $this->headTitle()->append('TinyMcePlugin');
+    echo $this->headTitle();
+
+    echo $this->headMeta();
+    
+    include_once realpath(dirname(__FILE__) . '/_headLS.php');
+
+    $this->headScript()->appendFile('/tiny_mce/tiny_mce_popup.js');
+
+    echo $this->headLink();
+        ?>
+        
+        <!--[if IE 7]>
+        <link rel="stylesheet" href="<?=STATIC_PATH?>/css/font-awesome-ie7.min.css">
+        <![endif]-->
+        
+        <? if(empty(Zend_Registry::get('config')->offlineMode)) :?>
+        <link href='http://fonts.googleapis.com/css?family=Dosis&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <?endif;?>
+        
+    </head>
+
+    <body class="popup">
+        
+        <div id="agiPopupContntainer" class="container-fluid">
+            <?= $this->layout()->content; ?>
+        </div>
+
+        <?= $this->popoverIframeInit();?>
+        
+        <?= $this->headScript(); ?>
+        <?= $this->inlineScript() ?>
+
+    </body>
+</html>

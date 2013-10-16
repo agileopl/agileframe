@@ -1,0 +1,17 @@
+
+<header><h3><?= $this->translate('attachment_tinyplugin_join_'.strtolower($this->type).'_h1');?></h3></header>
+
+
+<div id="jChooseVideo">
+<?= $this->partial('index/inc/att-list-for-pager.phtml', array('pager' => $this->attPager, 'noActions' => true));?>
+</div>
+
+<? $this->inlineScript()->appendScript("
+
+    $('#jChooseVideo .images-list > li').live('click', function (){
+        location.href = '/attachment/user.tinyplugin/video/id/'+$(this).data('id');
+        return false;
+    });
+
+"); ?>
+

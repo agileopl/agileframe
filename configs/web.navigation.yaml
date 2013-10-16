@@ -1,0 +1,114 @@
+--- #nawigacja Web
+
+navigation:
+  
+  home:
+    id: home
+    label: navi_home
+    module: default
+    controller: index
+    action: index
+    order: 1
+    route: home
+
+
+    pages:
+
+      static1:
+        label: menu_static1
+        module: default
+        controller: static
+        action: static1
+        id: static1
+
+      static2:
+        label: menu_static2
+        module: default
+        controller: static
+        action: static2
+        id: static1
+
+      users:
+        label: menu_users
+        module: profile
+        controller: index
+        action: list
+        id: users
+
+  home_hide:
+    id: home_hide
+    label: navi_home
+    module: default
+    controller: index
+    action: index
+    route: home
+
+    pages:
+
+      profileManage:
+        label: profile
+        module: profile
+        controller: manage
+        action: data
+        id: profile_manage
+
+        pages:
+
+          profileSettings:
+            label: menu_profile_settings
+            module: profile
+            controller: manage
+            action: data
+            id: profile_settings
+            
+            pages:
+    
+              profileData:
+                label: menu_profile_data
+                module: profile
+                controller: manage
+                action: data
+                id: profile_data
+              profileAdditional:
+                label: menu_profile_additional
+                module: profile
+                controller: manage
+                action: additional
+                id: profile_additional
+                
+              profileChangePass:
+                label: menu_profile_change_pass
+                module: profile
+                controller: manage
+                action: changepass
+                id: profile_change_pass
+
+
+            
+      profilePublic:
+        label: profile
+        module: profile
+        controller: index
+        action: data
+        id: profile_public
+
+        pages:
+
+          pubProfileIndex:
+            label: profile_home
+            module: profile
+            controller: index
+            action: index
+            route: user
+            id: pubProfileIndex
+
+          
+
+    
+      customerProfile:
+        label: customer_profile
+        module: customer
+        controller: profile
+        action: index
+        id: customer_profile
+

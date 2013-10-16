@@ -1,0 +1,26 @@
+<div class="il-list-item">
+
+    <div class="il-content clearfix">
+        <div class="il-col1">
+            <?if($this->firm->avatar):?>
+                <a href="<?=$this->firm->getPublicUrl();?>"><?= $this->mdsImage($this->firm->avatar, array('resize' => '100x100', 'content' => $this->firm));?></a>
+            <?endif;?>
+        </div>
+        <div class="il-col23">
+            <h2><a href="<?=$this->firm->getPublicUrl();?>"><?=$this->firm;?></a></h2>
+            <p><a href="<?=$this->firm->getPublicUrl();?>">
+            <?if($this->firm->isVariantOrganization()):?>
+            <h3>Organizacja</h3>
+            <?else:?>
+                <?if($this->firm->isTypeCommuny()):?>
+                <h3>Gmina</h3>
+                <?else:?>
+                <h3>Powiat</h3>
+                <?endif;?>
+            <?endif;?>
+            </a></p>
+        </div>
+            
+    </div>
+    
+</div>

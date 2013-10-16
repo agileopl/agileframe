@@ -1,0 +1,21 @@
+
+<header><h3>Wstaw plik</h3></header>
+
+<? $this->searchForm->setAttrib('id', 'jChoserForm');?>
+<?= $this->searchForm;?>
+
+<div id="jItems">
+<?= $this->partial('index/inc/att-list-for-pager.phtml', array('pager' => $this->attPager, 'noActions' => true));?>
+</div>
+
+<? if(!empty($this->attPager) && count($this->attPager) > 0) : ?>    
+<? $this->inlineScript()->appendScript("
+$(document).ready(function(){
+    $('#jItems .images-list > li').live('click', function (){
+        location.href='/attachment/user.tinyplugin/file/id/'+$(this).data('id');
+        return false;
+    });
+});
+
+"); ?>
+<? endif; ?>    

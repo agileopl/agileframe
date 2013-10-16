@@ -1,0 +1,63 @@
+
+<header><h3><?= $this->translate('attachment_tinyplugin_join_'.strtolower($this->type).'_h1');?></h3></header>
+
+
+<form id="jInsertAttachmentForm" enctype="multipart/form-data" action="/attachment/user.tinyplugin/video.save" method="post">
+        
+    <input type="hidden" id="jAttId" name="att_id" value="<?= $this->attach ? $this->attach->id : '';?>"/>
+    
+    <div class="row-fluid" id="jVideoPreview">
+    <? if($this->attach) :?>
+        <?= $this->mdsVideo($this->attach, array('width' => 320, 'height' => 180));?>
+    <? else :?>    
+        <div class="span3">
+            <h2>Wgraj z dysku</h2>
+            <input type="file" id="jVideoInputFile" name="video">
+        </div>
+        <div class="span1">
+            <h2>lub</h2>
+        </div>
+        <div class="span4">
+            <h2>wklej link z Youtube</h2>
+            <input class="input-xlarge" type="text" name="youtube">
+        </div>
+        <div class="span1">
+            <h2>lub</h2>
+        </div>
+        <div class="span3">
+            <h2>wybierz z bazy video</h2>
+            <a href="/attachment/user.tinyplugin/video.choose" class="btn btn-primary">Wybierz z bazy</a>
+        </div>
+
+    <? endif;?>
+    </div>
+    <hr/>
+    
+    <p>
+    Opis:
+    <textarea class="input-xxlarge" name="att_description"><? if($this->attach) :?><?= $this->attach->description;?><?endif;?></textarea>
+    </p>
+    <button type="submit" class="btn btn-success">Dodaj video</button>
+    
+    <? if($this->attach) :?>
+    <a href="/attachment/user.tinyplugin/video" class="btn btn-primary">Zmień video</a>
+    <? endif;?>
+    
+</form>
+
+
+
+<? $this->inlineScript()->appendScript("
+    $('#jVideoInputFile').css('display', 'none');
+    $('#jVideoInputFile').after('<a class=\"btn btn-primary\" onclick=\"$(\'input[id=jVideoInputFile]\').click()\">Wybierz wideo</a><span id=\"jVideoInputFileInfo\"></span>');
+    $('#jVideoInputFile').live('change', function () {
+        path = $(this).val();
+        var file = path.substr(path.lastIndexOf('\\\\') + 1);
+        $('#jVideoInputFileInfo').html(file);
+    });
+"); ?>
+
+<? $this->inlineScript()->appendScript($this->render('user-tinyplugin/video.js')); ?>
+
+
+

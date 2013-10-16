@@ -1,0 +1,184 @@
+<?= $this->doctype('HTML5'); ?>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <?
+
+    $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html; charset=UTF-8')->appendHttpEquiv('Content-Language', 'pl_PL');
+
+    $pages = $this->navigation()->findAllBy('active', true);
+    $activePage = end($pages);
+    if ($activePage && !$this->headTitle()->count()) {
+
+        if (isset($activePage->id) && $activePage->id != 'menu_home') {
+            $addPageInfo = '';
+            if ($page = Zend_Controller_Front::getInstance()->getRequest()->getParam('page')) {
+                $addPageInfo = $this->translate('seo_page_info', $page);
+            }
+            $this->headTitle(strip_tags(htmlspecialchars_decode($this->translate($activePage->get('label')) . $addPageInfo, ENT_QUOTES)));
+        }
+
+        while ($parent = $activePage->getParent()) {
+            if (isset($parent->id) && $parent->id != 'menu_home') {
+                $this->headTitle()->append(strip_tags(htmlspecialchars_decode($this->translate($parent->get('label')), ENT_QUOTES)));
+                $activePage = $parent;
+            } else {
+                break;
+            }
+        }
+    }
+
+    $this->headTitle()->setSeparator(' - ');
+    echo $this->headTitle();
+
+    echo $this->headMeta();
+    
+    include_once realpath(dirname(__FILE__) . '/_headLS.php');
+    
+    echo $this->headLink();
+        ?>
+
+        <!--[if IE 7]>
+        <link rel="stylesheet" href="<?=STATIC_PATH?>/css/font-awesome-ie7.min.css">
+        <![endif]-->
+
+        <? if(empty(Zend_Registry::get('config')->offlineMode)) :?>
+        <link href='http://fonts.googleapis.com/css?family=Dosis&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
+        <?endif;?>
+        
+        <style>
+            <? 
+            $bg = '';
+            if(Zend_Auth::getInstance()->hasIdentity()) : 
+                if(!empty(Zend_Auth::getInstance()->getIdentity()->cms_bg)) :
+                    $bg = Zend_Auth::getInstance()->getIdentity()->cms_bg;
+                endif;
+            endif;
+            $bg = !empty($bg) ? (substr($bg,0,5) == '/img/' ? Zend_Registry::get('config')->globals->host->mds . Zend_Registry::get('config')->globals->mds->cms . $bg : $this->mdsImage($bg)) : Zend_Registry::get('config')->globals->host->mds . Zend_Registry::get('config')->globals->mds->cms . '/img/bg/pattern8-pattern70b.png';
+            ?>
+            body {
+                background-image: url('<?=$bg;?>');   
+            }
+        </style>
+        
+    </head>
+
+    <body>
+
+        <header class="navbar">
+            <div class="navbar-inner">
+
+                <a href="/"><img class="pull-left logo hidden-phone" src="<?= Zend_Registry::get('config')->globals->host->mds . Zend_Registry::get('config')->globals->mds->cms ;?>/img/agilecms.png" /></a>
+
+
+                <ul class="nav pull-left">
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-large icon-flag"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="icon-large icon-globe"></i> PL</a></li>
+                            <li><a href="#"><i class="icon-large icon-globe"></i> EN</a></li>
+                            
+                        </ul>
+
+                    </li>
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Wybierz tapetę">
+                            <i class="icon-large icon-desktop"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                        <? foreach(Zend_Registry::get('config')->globals->bgs as $no => $bg) : ?>
+                            <li><a href="?changeBg=<?=$no;?>"><i class="icon-desktop"></i> <?=$bg->label;?></a></li>
+                        <? endforeach; ?>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="<?= $this->translate('clear_cache');?>">
+                            <i class="icon-large icon-cog"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="?clearCache=1"><i class="icon-trash"></i> <?= $this->translate('clear_cache_cms');?></a></li>
+                            <li><a href="/index/clearCache"><i class="icon-trash"></i> <?= $this->translate('clear_cache_web');?></a></li>
+                        </ul>
+                    </li>
+                    
+                </ul>
+
+                <? if(Zend_Auth::getInstance()->hasIdentity()) : 
+                        $admin = Zend_Auth::getInstance()->getIdentity();
+                ?>
+                    <div class="pull-right account-info">
+                        
+                        <?if(!empty($admin->avatar)) :?>
+                            <img src="<?=$this->mdsImage($admin->avatar, array('resize'=> '50x50', 'crop' => 'mt'));?>" />
+                        <?endif;?>
+                        
+                        <div class="admin-info">
+                        <h3><?= Zend_Auth::getInstance()->getIdentity()->name.' '.Zend_Auth::getInstance()->getIdentity()->surname ?></h3>
+                        <p>
+                            <a href="/auth/update"><?= $this->translate('admin_top_settings');?></a> | <a href="/auth/changepass"><?= $this->translate('admin_top_pass');?></a> | <a href="/auth/logout"><?= $this->translate('admin_top_logout');?></a>
+                        </p>
+                        </div>
+                        
+                    </div>                            
+    
+                <? endif; ?>
+                
+            </div>
+        </header>
+
+        <?= $this->navigation(); ?>
+        
+        <div id="agiMailContntainer" class="container-fluid">
+             
+            <? if(!empty($this->sessMessengerMessages)) : ?>
+                <? foreach($this->sessMessengerMessages as $message) : ?>
+                <div class="jAlertAutoHide alert alert-<?= $message[1];?>">
+                    <?= $this->translate($message[0]);?>
+                </div>
+                <? endforeach; ?>
+            <? endif; ?>
+                
+            <?= $this->navigation()->breadcrumbs() ?>
+            <?= $this->layout()->content ?>
+            <?
+            // if ($this->layout()->layoutConfig && !empty($this->layout()->layoutConfig->layout)) :
+                // echo $this->layoutColorer($this->layout()->layoutConfig->layout, array(
+                    // '_contentColorerCallback' => function(Zend_Config $box, $content, $self)
+                    // {
+                        // return $self->view->messenger() . $content;
+                    // },
+                    // '_rowColorerCallback' => function(Zend_Config $row, $content, $self)
+                    // {
+                        // return $content . '<div class="clear">&nbsp;</div>';
+                    // }
+// 
+                // ));
+            // else :
+                
+            //endif;
+            ?>
+        </div>
+        
+        <footer>
+            <div class="align-right">
+                <?= Zend_Registry::get('config')->globals->copyright;?>
+            </div>
+        </footer>
+        
+        <?= $this->popoverIframeInit();?>
+        
+        <?= $this->headScript(); ?>
+        <?= $this->inlineScript() ?>
+
+    </body>
+</html>

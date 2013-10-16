@@ -1,0 +1,9 @@
+
+<p class="pull-right">
+    <a class="btn btn-primary" href='/admin/index/password/id/<?= $this->admin->id; ?>'><?= $this->translate('admin_set_new_pass');?></a>
+</p>
+
+<h1><?= $this->translate('admin_h1_edit', $this->admin->name.' '.$this->admin->surname);?></h1>
+<?= $this->form; ?>
+
+<?= $this->jForm('jAdminForm'); ?>

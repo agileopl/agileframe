@@ -1,0 +1,16 @@
+
+Header add Access-Control-Allow-Origin *
+
+#<IfModule mod_expires.c>
+#    ExpiresActive On
+#    ExpiresDefault "access plus 1 year"
+#    Header set Cache-Control "max-age=31536000, public, must-revalidate"
+#    Header unset Last-Modified
+#</IfModule>
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]

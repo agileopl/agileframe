@@ -1,0 +1,36 @@
+
+<h1>Latest ...</h1>
+
+<?
+$luceneMap = array(
+        'object_name' => 'keyword',
+        'object_id' => 'keyword',
+        'object_type' => 'keyword', 
+        'title' => 'unIndexed',
+        'public_date' => 'keyword',
+        'refresh_date' => 'keyword'
+    );
+?>
+<table class="table table-striped">
+    <tr>
+    <? foreach($luceneMap as $key => $val) :?>
+        <th><?= $key;?></th> 
+    <? endforeach;?>
+        <th>App</th> 
+    </tr>
+    
+<? foreach($this->lastSearchItems->getCurrentItems() as $item) :?>
+    <tr>
+        <? foreach($luceneMap as $key => $val) :?>
+        <td><?= !empty($item->{$key}) ? $item->{$key} : '--';?></td> 
+        <? endforeach;?>
+        
+        <td>
+            <?= !empty($item->web_available) ? 'web' : '';?>
+            <?= !empty($item->cms_available) ? 'cms' : '';?>
+            <?= !empty($item->cums_available) ? 'cums' : '';?>
+        </td>
+        
+    </tr>
+<? endforeach;?>
+</table>

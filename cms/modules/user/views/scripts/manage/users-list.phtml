@@ -1,0 +1,42 @@
+
+<? $this->searchForm->setAttrib('id', 'jSearchForm');?>
+
+<?= $this->searchForm;?>
+<?= $this->jForm('jSearchForm');?>
+
+
+<? if (!empty($this->pager) && $this->pager->count()): ?>
+
+    <div id="jAlertContainer"></div>
+    <div class="widget-box">
+        <div class="widget-content nopadding">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th><?= $this->translate('usr_user');?></th>
+                        <th>Email</th>
+                        <th><?= $this->translate('usr_create_date');?></th>
+                        <th><?= $this->translate('list_actions');?></th>
+                    </tr>
+                </thead>
+                <tbody>
+    
+    <? foreach($this->pager->getCurrentItems() as $item): ?>
+        <? $this->item = $item;?>
+        <?= $this->render('manage/inc/listUserItem.phtml');?>
+    <? endforeach; ?>
+
+                </tbody>
+            </table>                            
+        </div>
+    </div>
+    
+    <?= $this->paginationControl($this->pager); ?>
+    
+    <? $this->inlineScript()->appendScript($this->render('manage/users-list.js'));?>
+    
+<?  else : ?>
+    <div class="alert alert-info alert-block"><?= $this->translate('pager_no_results');?></div>
+<? endif; ?>
+

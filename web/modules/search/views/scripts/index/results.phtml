@@ -1,0 +1,40 @@
+
+<?= $this->searchForm;?>
+
+<?
+
+// mamy albo artykuply redaktorskie (4 typy) albo blog item (4 typy)
+
+
+if(!empty($this->pager)) : ?>
+    <div class="itemsList">
+    <? $i=0;foreach ($this->pager->getCurrentItems() as $hit) : ?>
+        <? 
+        if($hit->hasOriginalObject()) : 
+            $i++;
+            
+            if(!empty($i)):
+                echo '<hr/>';
+            endif;
+            
+            $object = $hit->getOriginalObject();
+            
+            if($object instanceof User) :
+                $this->user = $object; 
+                echo $this->render('index/inc/userItem.phtml');
+
+            endif;
+        else :
+            //T::dump($hit);
+        endif;
+        ?>
+    <? endforeach; ?>
+    </div>
+    
+    <?= $this->paginationControl($this->pager); ?>
+    
+<?endif;?>
+
+<? if(empty($i) && $this->searchForm->q->getValue()):?>
+<div class="alert alert-info alert-block"><?= $this->translate('pager_no_results');?></div>
+<? endif;?>

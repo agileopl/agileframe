@@ -1,0 +1,22 @@
+
+<form action="<?= $this->aurl(array('id' => $this->user->id))?>" method="post">
+
+<div class="alert alert-danger">
+    
+    Uwaga! Ta operacja jest nieodwracalna.
+    Czy na pewno chcesz skasować użytkownika <strong><?= $this->user;?></strong>?
+    
+    <div class="text-center">
+        
+        <button class="btn btn-inverse">Tak</button>
+        
+        <a class="btn btn-link" href="/user/manage/users.list">anuluj</a>
+        
+        
+    </div>
+    
+</div>
+    
+</form>
+
+

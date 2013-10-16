@@ -1,0 +1,49 @@
+
+<p class="pull-right">
+<a class="btn btn-primary" href='/attachment/index/uploader'><i class="icon-plus icon-white"></i> <?= $this->translate('attachment_create_new');?></a>
+</p>
+
+<h1><?= $this->translate('attachment_list');?></h1>
+
+<?= $this->searchForm;?>
+
+<? if(!empty($this->attPager) && count($this->attPager) > 0) : ?>
+
+    <form action="<?= $this->url();?>"
+          method="post"
+          id="jImagesForm"
+          enctype="multipart/form-data">
+        
+        <?= $this->partial('index/inc/att-list-for-pager.phtml', array('pager' => $this->attPager));?>
+        
+    </form>    
+    
+    <?
+    $this->inlineScript()->appendScript("
+        $(document).ready(function(){
+                    
+                
+            $('.jIDelete').click(function (){
+                if(confirm('" . $this->translate('list_navi_delete_confirm') . "')) {
+                    var attId = $(this).data('id');
+                    $.post('/attachment/index/delete/', { 'id': $(this).data('id')},
+                                  function(data){}, 'json')
+                                  .success(
+                                    function(){
+                                        $('#iAtt'+attId).hide();
+                                    }
+                                    );
+                }
+                return false;
+            });    
+            
+            $('.jIEdit').click(function (){
+                agiIframePopoverShow('".$this->translate('attachment_h1_edit')."', '/attachment/index/edit/poplay/1/id/'+$(this).data('id'));
+                return false;
+            });    
+    
+        });
+    ");
+    ?>
+
+<? endif; ?>

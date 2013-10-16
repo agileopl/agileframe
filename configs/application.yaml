@@ -1,0 +1,525 @@
+--- configuracja agile cms
+
+general: 
+
+  runMode: production
+
+  # +------------------+
+  # | PHP ini settings |
+  # +------------------+
+  
+  phpSettings:
+
+    display_startup_errors: 0
+    display_errors: 0
+    error_reporting: E_ALL | E_STRICT
+    log_errors: 1
+    error_log: BASE_PATH/data/logs/php-APPLICATION_NAME.log
+    
+    date:
+      timezone: UTC
+  
+  # +-----------------------------+
+  # | Include path and autoloader |
+  # +-----------------------------+
+  
+  includePaths:
+    library: BASE_PATH/libs
+  
+  # Set namespaces for the Zend_Loader_Autoloader
+  autoloaderNamespaces:
+    - ZendX_
+    - App_
+    - Twitter_
+  
+  resources:
+    # +-----+
+    # | Log |
+    # +-----+
+    #
+    log:
+      stream:
+        writerName: Stream
+        writerParams:
+          stream: BASE_PATH/data/logs/app-APPLICATION_NAME.log
+          mode: a
+        filterName: Priority
+        filterParams:
+          priority: 4
+
+    # +----+
+    # | Db | 
+    # +----+
+    #
+    # Define the database connection for the application. Use the resource Multidb
+    # for more than one database connection.
+    #
+    
+    multidb:
+      master:
+        adapter: pdo_mysql
+        host: 
+        username: 
+        password: 
+        dbname: 
+        default: true
+        charset: utf8
+      
+        profiler:
+          class: Zend_Db_Profiler
+          enabled: false
+    
+      slave:
+        adapter: pdo_mysql
+        host: 
+        username: 
+        password: 
+        dbname: 
+        charset: utf8
+        
+        profiler:
+          class: Zend_Db_Profiler
+          enabled: false
+          
+  # +---------+
+  # | Globals |
+  # +---------+
+  globals:
+    headers:
+      default:
+        cache_control: max-age=60, public, must-revalidate
+    lg:
+      default: en
+      suported:
+        pl: Polski
+        en: Angielski
+    host:
+      web: http://domain
+      cms: http://cms.domain
+      mds: http://mds.domain
+    cookie:
+      domain: .domain
+      regionName: AGFRX
+      profileName: UserProfileInfo 
+
+    mds:
+      web: /web
+      cuweb: /cuweb
+      cms: /cms
+      cums: /cums
+    social:
+      facebook:
+        app_id: 
+        app_secret: 
+        my_url: http://nazwa.domeny/profile/auth/fbconnect/
+        scope: email,user_birthday,read_stream
+      disqus:
+        shortname: 
+        api_key:
+    previewChecker:
+      salt: ewrfds215
+    timedebuger: 0
+    googleApi:
+      mapKey: AIzaSyAiook8x4kCoFTJIkrvqY2IhxIBwScsKHg
+    cdnFiles:
+      css:
+        jqueryui: //ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/smoothness/jquery-ui.css
+      js:
+        jquery: //ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
+        jqueryui: //ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js
+    ep_api:
+      # kapec
+      #api_key: 771570bcabfcde0789bce1db9f00a421
+      #api_secret: 3bdfe4c0a84dfe274db4e64ee54de52c
+      # mk1
+      #api_key: c16c87eb22ffa5b8e9389942009b2ae1
+      #api_secret: 1c4c05b5a9876e1248dbb644d3ec313a
+      # mk2
+      api_key: ad2dd0dea2d7ff541909b37fb89bbfda
+      api_secret: 8ea2ced918e8c25c7e09e92e1f947f07
+    
+    mail:
+      to:
+        -
+          email: 
+          name:
+      from:
+        email: 
+        name:
+  
+  search:
+    lucene:
+      master:
+        storage_path: BASE_PATH/data/lucene
+      test:
+        storage_path: BASE_PATH/data/tmp/lucene
+        
+      
+  uploader:
+    tmp: BASE_PATH/data/upload/tmp
+    base: BASE_PATH/data/upload
+    publicPath: BASE_PATH/mds/public
+    default:
+      dirPrefix: /upl
+    object:
+      Admin:
+        dirPrefix: /admin
+        byId: 1
+      Attachment:
+        dirPrefix: /a
+        byId: 1
+
+app:
+  _extends: general
+  
+  # Namespace for the Zend_Application_Module_Autoloader
+  appnamespace: 
+  
+  includePaths:
+    models: BASE_PATH/models
+    
+  # +--------------+
+  # | Translate    |
+  # +--------------+
+  
+  translate:
+    cache:
+      lifeTime: 86400
+    default_language: en
+    untranslatedLogTableName: log_translate
+  
+  resources:
+
+    # +--------------+
+    # | Cachemanager |
+    # +--------------+
+    
+    cachemanager:
+      app:
+        frontend:
+          name: Core
+          customFrontendNaming: false
+          options:
+            lifetime: 86400
+            automatic_serialization: true
+            cache_id_prefix: agiCC
+        backend:
+          name: File
+          customBackendNaming: false
+          options:
+            cache_dir: BASE_PATH/data/cache/APPLICATION_NAME
+            hashed_directory_level: 0
+        frontendBackendAutoload: false
+        
+
+    # +--------+
+    # | Locale |
+    # +--------+
+    
+    # Default Locale settings
+    locale:
+      default: en_EN
+      cache: app
+    
+    # +------+
+    # | Mail |
+    # +------+
+    mail:
+      transport:
+        type: Zend_Mail_Transport_Smtp    
+    
+    # +---------+
+    # | Modules |
+    # +---------+
+    
+    # Initialize application module bootstrapping.
+    modules:
+      -
+        
+  # +-------+
+  # | Model |
+  # +-------+
+  model:
+    admin:
+      passwordSecretKey: Xasf1
+
+    user:
+      passwordSecretKey: GASD42as
+      profileNewMessagesIterval: 60
+
+
+  purifier:
+    cache_dir:  BASE_PATH/data/cache/purifier
+
+  router:
+    web:
+      configFile: BASE_PATH/configs/web.router.yaml
+      cache:
+        lifeTime: 86400
+    cuweb:
+      configFile: BASE_PATH/configs/cuweb.router.yaml
+      cache:
+        lifeTime: 86400
+        
+webapp:
+  _extends: app
+  
+  # +--------------------------------+
+  # | Zend_Application and Bootstrap |
+  # +--------------------------------+
+  
+  bootstrap:
+    path: APPLICATION_PATH/Bootstrap.php
+    class: Bootstrap
+  
+  # +---------+
+  # | Session |
+  # +---------+
+  session:
+    save_path: BASE_PATH/data/sessions/APPLICATION_NAME
+    use_only_cookies: true
+    cookie_lifetime: 604800
+    gc_maxlifetime: 604800 # 1 week
+    remember_me_seconds: 604800  # 1 week
+    name: AGSIDanAPPLICATION_NAME
+  
+  # Settings for using database to handle session
+  # sessionHandler:
+  # class: Zend_Session_SaveHandler_DbTable
+  #   options:
+  #     name: sessions
+  #     primary: session_id
+  #     modifiedColumn: modified
+  #     dataColumn: session_data
+  #     lifetimeColumn: lifetime
+
+
+  resources:
+      
+    
+    # +-----------------+
+    # | FrontController |
+    # +-----------------+
+    
+    # Configuration for the frontcontroller.
+    
+    frontController:
+      env: APPLICATION_ENV
+      moduleDirectory: APPLICATION_PATH/modules
+      moduleControllerDirectoryName: controllers
+    # defaultModule: default
+    # defaultControllerName: index
+    # defaultAction: index
+    # params.prefixDefaultModule: 1
+    # params.displayExceptions: 0
+    # plugins[]: Zend_Controller_Plugin_ErrorHandler
+    
+    #
+    # Loading a plugin
+    #   plugins: <PLUGIN_CLASS>
+    # 
+    # Loading multiple plugins
+    #   plugins[]: <PLUGIN_CLASS>
+    #   plugins[]: <PLUGIN_CLASS>
+    
+    
+    # +--------+
+    # | Layout |
+    # +--------+
+    
+    # Enables and configures Zend_Layout.
+    layout:
+      layout: layout
+      layoutPath: APPLICATION_PATH/layouts/scripts/
+      mvcSuccessfulActionOnly: true
+    # contentKey: content
+    # helperClass: Zend_Layout_Controller_Action_Helper_Layout
+    # pluginClass: Zend_Layout_Controller_Plugin_Layout
+
+    
+    # +------+
+    # | View |
+    # +------+
+    
+    view:
+      # Configure Zend_View for the application
+      doctype: HTML5
+      charset: UTF-8
+
+      # Options for Zend_View
+      # basePath: 
+      # basePathPrefix: Zend_View
+      # scriptPath: 
+      # helperPath: 
+      # helperPath.ZendX_JQuery_View_Helper: ZendX/JQuery/View/Helper
+      # filterPath: 
+      # helperPath.App_View_Helper: App/View/Helper
+      
+      helperPath:
+        Agileo_View_Helper: BASE_PATH/libs/Agileo/View/Helper
+      
+      # lfiProtectionOn: true
+      # encoding: UTF-8
+      # escape: htmlspecialchars
+      # filter:
+      # strictVars: false
+
+  # +---------+
+  # | Globals |
+  # +---------+
+  
+  layout:
+    schemaValidate: 0
+    cache:
+      lifeTime: 86400
+  
+# +---------------------------------------------------------------------------+
+# | CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS  CMS |
+# +---------------------------------------------------------------------------+
+
+cms:
+  _extends: webapp
+  
+  navigation:
+    configFile: BASE_PATH/configs/cms.navigation.yaml
+    cache:
+      lifeTime: 86400
+  
+  acl:
+    configFile: BASE_PATH/configs/cms.acl.yaml
+    cache:
+      lifeTime: 86400
+  
+  resources:
+    frontController:
+      plugins:
+        acl: Agileo_Cms_Controller_Plugin_Acl
+        init: Agileo_Cms_Controller_Plugin_Init
+        sessManager: Agileo_Controller_Plugin_SessManager
+        
+    view:
+      helperPath:
+        Agileo_Cms_View_Helper: BASE_PATH/libs/Agileo/Cms/View/Helper
+  
+  globals:
+    copyright: '<span class="color">agile</span>frame</a> 0.1'
+    compressor_cms_hash: '130702175054'
+    bgs:
+      1: 
+        label: Paski
+        url: /img/bg/pattern8-pattern70b.png
+      2: 
+        label: Blue
+        url: /img/bg/pool_table-blue.png
+      3: 
+        label: Green
+        url: /img/bg/pool_table.png
+      4: 
+        label: Kostka
+        url: /img/bg/px_by_Gre3g.png
+      5: 
+        label: Tkanina
+        url: /img/bg/tex2res4.png
+      6: 
+        label: Szary papier
+        url: /img/bg/wild_oliva.png
+
+
+# +---------------------------------------------------------------------------+
+# | WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB  WEB |
+# +---------------------------------------------------------------------------+
+
+web:
+  _extends: webapp
+  
+  globals:
+    copyright: 'Made by agileo.pl. Contact him at mkapinos@agileo.pl. Code licensed under the MIT License.<br>Based on <a href="http://framework.zend.com/">ZendFramework 1</a>, <a href="http://getbootstrap.com/">Twitter Bootstrap</a> and a lot of js plugins.'
+    compressor_web_hash: '130823112843'
+    videoStat: true
+    
+  resources:
+    frontController:
+      plugins:
+        acl: Agileo_Web_Controller_Plugin_Acl
+        init: Agileo_Web_Controller_Plugin_Init
+        layout: Agileo_Controller_Plugin_Layout
+        sessManager: Agileo_Controller_Plugin_SessManager
+
+    view:
+      helperPath:
+        Agileo_Web_View_Helper: BASE_PATH/libs/Agileo/Web/View/Helper
+
+
+    # +--------------+
+    # | Cachemanager |
+    # +--------------+
+    
+    cachemanager:
+      # konfiguracja cache kilkadełka
+      pagecache:
+        frontend:
+          customFrontendNaming: true
+          name: Agileo_Cache_Frontend_Page
+          options:
+            lifetime: 120
+            automatic_serialization: true
+            content_type_memorization: true
+            cache_id_prefix: agiWeb
+            default_options:
+              cache: false
+            pages_regexps:
+              1: '^/$'
+              2: '.html'
+              3: '.nhtm'
+              4: '.nhtm'
+              5: '.lhtm'
+              6: '.chtm'
+        backend:
+          name: File
+          options:
+            cache_dir: BASE_PATH/data/cache/APPLICATION_NAME-pages
+            hashed_directory_level: 3
+
+
+  navigation:
+    configFile: BASE_PATH/configs/web.navigation.yaml
+    cache:
+      lifeTime: 86400
+      
+  acl:
+    configFile: BASE_PATH/configs/web.acl.yaml
+    cache:
+      lifeTime: 86400
+      
+  
+# +---------------------------------------------------------------------------+
+# | MDS  Media Delivery Service  MDS  MDS  MDS  MDS  MDS  MDS  MDS  MDS  MDS  |
+# +---------------------------------------------------------------------------+
+
+mds:
+  _extends: general
+
+  # +--------------------------------+
+  # | Zend_Application and Bootstrap |
+  # +--------------------------------+
+  
+  bootstrap:
+    path: APPLICATION_PATH/Bootstrap.php
+    class: Bootstrap
+
+
+# +---------------------------------------------------------------------------+
+# | Scripts Scripts Scripts Scripts Scripts Scripts Scripts Scripts Scripts   |
+# +---------------------------------------------------------------------------+
+
+scripts:
+  _extends: app
+
+  # +--------------------------------+
+  # | Zend_Application and Bootstrap |
+  # +--------------------------------+
+  
+  bootstrap:
+    path: APPLICATION_PATH/Bootstrap.php
+    class: Bootstrap
+        

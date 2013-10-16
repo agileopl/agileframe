@@ -1,0 +1,51 @@
+<? if(!empty($this->profileUser)) :?>
+<div id="profile-top">
+    
+    <div class="row-fluid">
+        
+            <? if(!empty($this->profileUser->avatar)) : ?>
+                <div class="pull-left"><img src="<?= $this->mdsImage($this->profileUser->avatar, array('resize' => '50x50', 'crop' => 'mt'));?>" />
+            <? endif;?>
+            <h1><?= $this->profileUser->name?> <?= $this->profileUser->surname?></h1>
+            
+            <div class="navbar"><div class="navbar-inner">
+                <ul class="nav">
+                <? foreach($this->profileNavigation as $page) :?>
+                    <li<?= $page->isActive() ? ' class="active"' : '';?>>
+                        <a href="<?= $page->getHref();?>"><?= $this->translate($page->getLabel());?></a>
+                    </li>
+                <? endforeach; ?>
+                    <li class="pull-right">
+                        <a href="<?= $this->profileUser->getPublicUrl()?>"><?= $this->translate('profile_public_view');?></a>
+                    </li>
+                </ul>
+            </div></div>
+        </div>
+    </div>
+
+</div>
+<? endif; ?>
+    
+<? if(!empty($this->sessMessengerMessages)) : ?>
+    <? foreach($this->sessMessengerMessages as $message) : ?>
+    <div class="jAlertAutoHide alert alert-<?= $message[1];?>">
+        <?= $this->translate($message[0]);?>
+    </div>
+    <? endforeach; ?>
+<? endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

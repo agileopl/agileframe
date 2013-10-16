@@ -1,0 +1,77 @@
+<h1><?= $this->translate('profile_register');?> 
+    
+    <? if($this->user->isSocFacebook()):?>
+    <i class="icon-facebook-sign" style="color: #3661a0"></i>
+    <? endif;?>
+    
+    <?= $this->translate('profile_register_additional_data');?>
+</h1>
+
+<? if(!empty($this->status)) : ?>
+   <? if($this->status == 'account_create') : ?>
+   <div class="alert alert-success"><?= $this->translate('profile_register2_account_success');?></div>
+   <? else :?>
+   <div class="alert alert-error"><?= $this->translate('profile_register2_account_error');?></div>
+   <? endif; ?>   
+<? else :?>
+    
+    <? $this->form->setAttrib('id', 'jUserForm'); ?>
+    
+    <form id="<?= $this->form->getId(); ?>"
+          action="<?= $this->form->getAction(); ?>"
+          method="<?= $this->form->getMethod(); ?>"
+          class="form-horizontal"
+          enctype="<?= $this->form->getEnctype(); ?>"
+          horizontal="1" 
+          >
+        
+        <?= $this->form->token->render(); ?>
+        
+        <h3><?= $this->translate('profile_register2_basic');?></h3>
+        <fieldset>
+            
+            <?= $this->form->usr_email->render(); ?>
+
+            <? if(!$this->user->isTypeSocial()):?>
+            
+                <?= $this->form->usr_pass->render(); ?>
+                <?= $this->form->re_pass->render(); ?>
+                
+                <?= $this->form->usr_nick->render(); ?>
+                <?= $this->form->usr_name->render(); ?>
+                <?= $this->form->usr_surname->render(); ?>
+            
+            <?endif;?>
+    
+        </fieldset>
+        
+        <h3><?= $this->translate('profile_register2_location');?></h3>
+        <fieldset horizontal="1">
+            
+            <?= $this->formGeoMap($this->form, 'usr');?>
+            
+        </fieldset>
+        
+        <h3>Oświadczenie</h3>
+        <fieldset>
+            
+            <div class="control-group">
+                <label class="control-label"></label>
+                <div class="controls">
+    
+                     <input type="checkbox" name="usr_rules_market" class="required" value="1"/> Wyrażam zgodę na ...
+                    
+                </div>
+            </div>
+
+        </fieldset>
+        
+        <?= $this->form->getDisplayGroup("zfBootstrapFormActions")->render(); ?>
+        
+    </form>
+    
+    <?= $this->jForm('jUserForm'); ?>
+    
+    <? $this->inlineScript()->appendScript($this->render('_inc/codeAndCommuny.js')); ?>
+
+<? endif; ?>

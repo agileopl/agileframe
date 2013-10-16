@@ -1,0 +1,64 @@
+
+<h1><?= $this->translate('users_list');?></h1>
+
+<? if ($this->pager && $this->pager->count()): ?>
+    
+    <div class="mapContainer">
+    <div id="users_map" style="width:100%; height:600px"></div>
+    </div>
+    <?
+    
+    $this->mapInit();
+    
+    $markers = array();
+    foreach($this->pager->getCurrentItems() as $item) {
+        if(!empty($item->geo_zoom)) {
+            $markers[] = array(
+                'title' =>  $item->name.' '.$item->surname,
+                'lat' =>  $item->geo_lat,
+                'lng' =>  $item->geo_lng,
+                'thumb' => !empty($item->avatar) ? $this->mdsImage($item->avatar, array('resize' => '100x100')) : '',
+                'publicUrl' =>  $item->getPublicUrl()
+            );
+        }
+    }
+    
+    $this->inlineScript()->appendScript("
+    
+    var _MARKERS = ".Zend_Json::encode($markers).";
+                                
+    ");
+
+    $this->inlineScript()->appendScript($this->render('index/list-map.js'));
+    
+    ?>
+    <hr/>
+    <div class="row-fluid user-list-big">
+    <? $i=1; foreach($this->pager->getCurrentItems() as $item): ?>
+
+        <div class="span2">
+
+            <div class="thumbnail">
+                <a class="userAvatar" href="<?= $item->getPublicUrl();?>" title="<?= $this->escape($item);?>">
+                    <?= $this->userAvatar($item, $options = array('resize' => '150x150', 'crop' => 'mt', 'onlyThumb' => true));?>
+                    <em>
+                        <?= $this->escape($item);?><br/>
+                        <? if(!empty($item->stat_blogit_count)):?>
+                        <?= $item->stat_blogit_count.' '.$this->numberLabel($item->stat_blogit_count, 'artykuł', 'artykuły', 'artykułów');?>
+                        <?endif;?>
+                    </em>
+                </a>
+            </div>
+
+        </div>
+        <?if($i%6 == 0) :?>
+        </div><div class="row-fluid user-list-big">
+        <?endif;?>
+    <? $i++; endforeach; ?>
+    </div>
+    
+    <?= $this->paginationControl($this->pager); ?>
+    
+<?  else : ?>
+    <div class="alert alert-info alert-block"><?= $this->translate('pager_no_results');?></div>
+<? endif; ?>

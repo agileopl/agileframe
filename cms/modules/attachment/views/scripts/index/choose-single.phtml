@@ -1,0 +1,34 @@
+
+
+<h1><?= $this->translate('attachment_list_choose_single');?></h1>
+
+<? $this->searchForm->setAttrib('id', 'jChoserForm');?>
+<?= $this->searchForm;?>
+
+<div id="jItems">
+<?= $this->partial('index/inc/att-list-for-pager.phtml', array('pager' => $this->attPager, 'noActions' => true));?>
+</div>
+
+<? if(!empty($this->attPager) && count($this->attPager) > 0) : ?>    
+<? $this->inlineScript()->appendScript($this->render('index/choose-single.js')); ?>
+<? endif; ?>    
+
+<style>
+    #jChoosedSubmit {display: none;}
+    #jChoser a.remove {cursor: pointer;}
+    
+    ul.images-list li.selected {background-color: gray}
+    .choosed div {
+        float: left;
+    }
+
+    .choosed {}
+    .choosed div {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    .choosed div img{
+        height: 50px;
+        vertical-align: top;
+    }
+</style>

@@ -1,0 +1,50 @@
+<?
+if (!function_exists('_pageUrl')) {
+    function _pageUrl(Zend_Navigation_Page $page) 
+    {
+        return (!empty($page->node) && $page->node instanceof Marrow_Node) ? $page->node->getPublicUrl() : $page->getHref();
+    }
+}
+
+$menu = $this->container;
+
+if ($menu->hasPages()):
+    ?>
+    <ul class="nav pull-left">
+        <?
+       
+        $home = current(current($menu));
+        
+        $acl = $this->navigation()->getAcl();
+        $role = $this->navigation()->getRole();
+
+        $index = 0;
+        foreach ($home->getPages() as $page) :
+            $forcePage = null;
+            if ($this->navigation()->accept($page) || $forcePage):
+                $index++;
+                ?>
+                <li class="<?= ($page->isActive(true) ? 'active ' : '') ?>
+                           <?= ($page->hasChildren() ? 'dropdown ' : '') ?>
+                           <? //($page->hasChildren() && $page->isActive(true) ? 'open ' : '') ?>
+                    ">
+                    <a<?= $page->hasChildren() ? ' class="dropdown-toggle" data-toggle="dropdown"' : '';?> href="<?=_pageUrl($page)?>">
+                        <?=$this->translate($page->getLabel())?><?= $page->hasChildren() ? '<b class="caret"></b>' : '';?>
+                    </a>
+                    <? if ($page->hasChildren()): ?>
+                        <ul class="dropdown-menu">
+                            <?
+                            foreach ($page->getPages() as $page) :
+                                ?>
+                                <li class="<?= ($page->isActive(true) ? 'active ' : '') ?>">
+                                        <a href="<?=_pageUrl($page)?>"><span><?=$this->translate($page->getLabel())?></span></a>
+                                </li>
+                            <? endforeach; ?>
+                        </ul>
+                    <? endif; ?>
+                </li>
+            <? endif; ?>
+        <? endforeach; ?>
+    </ul>
+
+<? endif; ?>

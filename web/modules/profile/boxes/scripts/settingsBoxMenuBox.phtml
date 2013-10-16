@@ -1,0 +1,6 @@
+<div id="manageMenu">
+    <ul>
+        <li<?= $this->menuAction == 'data' ? ' class="active"' : '';?>><a href="/profile/manage/data"><?= $this->translate('menu_profile_settings');?></a></li>
+        <li<?= $this->menuAction == 'changepass' ? ' class="active"' : '';?>><a href="/profile/manage/changepass"><?= $this->translate('menu_profile_change_pass');?></a></li>
+    </ul>
+</div>

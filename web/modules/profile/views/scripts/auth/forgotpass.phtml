@@ -1,0 +1,29 @@
+
+<h1>Przypomnienie hasła</h1>
+
+<? if(!empty($this->status)):?>
+    <? if($this->status == 'msent'):?>
+    <div class="alert alert-success">Na Twoje konto email została wysłana informacja o dalszych krokach.</div>
+    
+    <? elseif($this->status == 'noemail'):?>
+    
+    <div class="alert alert-error">W naszym systemie nie ma zarejestrowanego podanego adresu email. <a href="/profile/auth/forgotpass"><u>Wróć do formularza i podaj poprawny emial</u></a></div>
+    
+    <?else:?>
+    
+    <div class="alert alert-error">Błąd wysyłania emaila, <a href="/profile/auth/forgotpass"><u>spróbuj jeszcze raz</u></a> lub <a href="/kontakt.nhtm"><u>skontaktuj się z nami</u></a>.</div>
+    <?endif;?>
+<?else:?>
+<p>Aby przypomnieć hasło podaj email, na który zakładałeś(aś) wcześniej konto. Na podany email zostanie przesłana informacja o dalszych krokach.</p>
+
+<? $this->form->setAttrib('id', 'jForgotPassForm'); ?>
+<?= $this->form; ?>
+<?= $this->jForm('jForgotPassForm'); ?>
+
+<? $this->inlineScript()->appendScript("
+$(document).ready(function() {
+    $('#usr_email').focus();
+});
+"); ?>
+
+<?endif;?>

@@ -1,0 +1,23 @@
+
+<form class="joinAttChoosedForm hide" id="jJoinAttForm" action="<?= $this->url();?>" method="post">
+    <div id="jJoinAttChoosed" class="joinAttChoosed"></div>
+    <button class="btn btn-success pull-left" id="jJoinAttChoosedSubmit"><?= $this->translate('attachment_list_choose_add');?></button>
+</form>
+
+<div id="jJoinAttChoosedFix" class="clearfix"></div>
+
+    
+    <h1><?= $this->translate('attachment_list_choose');?></h1>
+    
+    
+    <? $this->searchForm->setAttrib('id', 'jJoinAttFilterForm');?>
+    <?= $this->searchForm;?>
+    
+    <div id="jJoinAttItems" class="joinAttItems">
+    <?= $this->partial('index/inc/att-list-for-pager.phtml', array('pager' => $this->attPager, 'noActions' => true));?>
+    </div>
+
+<? if(!empty($this->attPager) && count($this->attPager) > 0) : ?>    
+<? $this->inlineScript()->appendScript($this->render('index/appand-items-to-parent.js')); ?>
+<? endif; ?>
+

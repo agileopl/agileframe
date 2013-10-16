@@ -1,0 +1,104 @@
+<?
+if (!function_exists('_pageUrl')) {
+    function _pageUrl(Zend_Navigation_Page $page) 
+    {
+        return $page->getHref();
+    }
+}
+
+$menu = $this->container;
+
+if ($menu->hasPages()):
+    
+    $cssPages = array();
+
+    ?>
+    <ul id="menubar" class="nav nav-pills nav-stacked">
+        <?
+        $home = current(current($menu));
+        $cssPages[] = $home; 
+
+        ?>
+        <li class="menu-home<?= ($home->isActive()) ? ' active' : '';?>"><a href="/" title="<?=$this->translate($home->getLabel())?>"><i class="icon-home"></i><span class="hidden-phone"><?=$this->truncate($this->translate($home->getLabel()), 15, '.')?></span></a></li>
+        <?        
+        
+        $acl = $this->navigation()->getAcl();
+        $role = $this->navigation()->getRole();
+
+        foreach ($home->getPages() as $page) :
+            if ($this->navigation()->accept($page)):
+                $cssPages[] = $page;
+                ?>
+                <li class="menu-<?=!empty($page->id) ? $page->id : '';?> <?= ($page->isActive(true) ? 'active ' : '') ?>
+                           <?= ($page->hasChildren() ? 'dropdown ' : '') ?>
+                    ">
+                    <?
+                    $maxLabelChars = $page->hasChildren() ? 13 : 15;
+                    
+                    ?>
+                    <a<?= $page->hasChildren() ? ' class="dropdown-toggle" data-toggle="dropdown"' : '';?> href="<?=_pageUrl($page)?>" title="<?=$this->translate($page->getLabel())?>">
+                        <?= !empty($page->icon) ? '<i class="'.$page->icon.'"></i>' : '';?>
+                        <span class="hidden-phone"><?=$this->truncate($this->translate($page->getLabel()), $maxLabelChars, '.')?><?= $page->hasChildren() ? ' <i class="icon-angle-right"></i>' : '';?></span>
+                    </a>
+                    <? if ($page->hasChildren()): ?>
+                        <ul class="dropdown-menu">
+                            <?
+                            foreach ($page->getPages() as $spage) :
+                                if($spage->isVisible()):
+                                ?>
+                                <li class="<?= ($spage->isActive(true) ? 'active ' : '') ?>">
+                                    <a href="<?=_pageUrl($spage)?>">
+                                        <?= !empty($spage->icon) ? '<i class="'.$spage->icon.'"></i>' : '';?>
+                                        <?=$this->translate($spage->getLabel())?>
+                                    </a>
+                                </li>
+                            <?
+                                endif; 
+                            endforeach; ?>
+                        </ul>
+                    <? endif; ?>
+                </li>
+            <? endif; ?>
+        <? endforeach; ?>
+    </ul>
+
+    <style>
+        <? foreach ($cssPages as $page) :?>
+            <?
+                $gbcfrom = !empty($page->bgcolorFrom) ? '#'.$page->bgcolorFrom : '#0099ab';
+                $gbcto = !empty($page->bgcolorTo) ? '#'.$page->bgcolorTo : '#2198ae';
+                $hover = !empty($page->hoverColor) ? '#'.$page->hoverColor : '#c7f9ff';
+            ?>
+            <?if ($this->navigation()->accept($page) && !empty($page->id)):?>
+            #menubar.nav-pills > li.menu-<?=$page->id;?> > a {
+                background: <?=$gbcfrom;?>;
+                background: -moz-linear-gradient(top,<?=$gbcfrom;?> 0%,<?=$gbcto;?> 100%);
+                background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,<?=$gbcfrom;?>),color-stop(100%,<?=$gbcto;?>));
+                background: -webkit-linear-gradient(top,<?=$gbcfrom;?> 0%,<?=$gbcto;?> 100%);
+                background: -o-linear-gradient(top,<?=$gbcfrom;?> 0%,<?=$gbcto;?> 100%);
+                background: -ms-linear-gradient(top,<?=$gbcfrom;?> 0%,<?=$gbcto;?> 100%);
+                background: linear-gradient(top,<?=$gbcfrom;?> 0%,<?=$gbcto;?> 100%);
+            }
+            
+            #menubar.nav-pills li.menu-<?=$page->id;?>.open .dropdown-toggle, #menubar.nav-pills > li.menu-<?=$page->id;?>.dropdown.open.active > a:hover {
+                background-color: <?=$gbcfrom;?>;
+                border-color: <?=$gbcfrom;?>;
+            }
+            
+            #menubar.nav-pills li.menu-<?=$page->id;?>.dropdown .dropdown-menu {
+                background-color: <?=$gbcfrom;?>;
+                border-color: <?=$gbcfrom;?>;
+            }
+            
+            #menubar.nav-pills > li.menu-<?=$page->id;?>.active > a, #menubar.nav-pills > li.menu-<?=$page->id;?>.active > a:hover{
+                color: <?= $hover?>;
+                border-top-color: <?= $hover?>;
+                border-bottom-color: <?= $hover?>;
+            }
+
+            <?endif;?>
+        <? endforeach; ?>
+
+    </style>
+
+<? endif; ?>

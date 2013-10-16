@@ -1,0 +1,41 @@
+
+                <tr>
+                    <td>
+                        <span class="badge badge-<?= $this->item->isActive() ? 'success' : 'important';?>"><?= $this->item->id;?></span>
+                    </td>
+                    <td>
+                        <i class="icon-user"></i> <?= $this->item->getName();?> <?= $this->item->getSurname();?>
+                    </td>
+                    <td >
+                        <?= $this->item->getLogin();?>
+                    </td>
+                    <td class="hidden-phone">
+                        <?= $this->translate('admin_status_' . strtolower($this->item->getStatus()));?>
+                    </td>
+                    <td>
+                        <?= $this->translate('admin_role_' . strtolower($this->item->getRole()));?>
+                    </td>
+                    <td class="hidden-phone">
+                        <?= $this->item->hasSubObject('Acl_Group') ? $this->item->getSubObject('Acl_Group')->getName(): '- brak - ' ;?>
+                    </td>                
+                    <td class="hidden-phone">
+                        <?= $this->item->getEmail();?>
+                    </td>
+                    <td class="hidden-phone">
+                        <i class="icon-calendar"></i>
+                        <?= $this->formDate($this->item->getCreateDate()); ?>
+                    </td>
+                    <td class="actions">
+                        <?= $this->aurl(array('action' => 'update',  
+                                                       'params' => array('id' => $this->item->id), 
+                                                       'content' => $this->translate('list_navi_edit'))) ?> 
+
+                        <?   
+                        $attr = array('onclick' => "return confirm('".$this->translate('list_navi_delete_confirm')."');");
+                        echo $this->aurl(array('action' => 'delete', 
+                                                 'attribs' => $attr, 
+                                                 'params' => array('id' => $this->item->id), 
+                                                 'content' => $this->translate('list_navi_delete')));
+                        ?>
+                    </td>
+                </tr>

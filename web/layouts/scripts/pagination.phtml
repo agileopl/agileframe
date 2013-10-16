@@ -1,0 +1,78 @@
+
+<? if ($this->pageCount > 1):
+    $route = $this->route ? $this->route : null;
+    
+    $queryString = $this->urlParams && is_array($this->urlParams) && !empty($this->urlParams) ? '?'.  http_build_query($this->urlParams, '', '&') : '';
+    
+    $params = Zend_Controller_Front::getInstance()->getRequest()->getParams();
+    
+?>
+    <div class="pagination">
+        <ul>
+            
+        <? $counter = 0; $countPagesInRange = count($this->pagesInRange); ?>
+        <? if (isset($this->first) && $this->first != $this->current && $this->pageCount > $countPagesInRange): ?>
+            <li class="prev"><a class="prev" href="<?= $this->url(array('page' => $this->first) + $params, $route) . $queryString;?>">pierwsza</a></li>
+        <? endif;?>
+        <? if (isset($this->previous) && $this->previous): ?>
+            <li class="prev"><a class="prev" href="<?= $this->url(array('page'=>$this->previous)+$params, $route).$queryString; ?>">poprzednia</a></li>
+        <? endif ?>
+
+        <? foreach ($this->pagesInRange as $page): ++$counter; $addDots = false; ?>
+            <? if ($this->pageCount > $countPagesInRange && $counter == $countPagesInRange && $this->lastPageInRange < $this->pageCount): ?>
+                <? $page = $this->pageCount; ?>
+                <li><span>...</span></li>
+            <? elseif ($this->pageCount > $countPagesInRange && $counter == 1 && $this->firstPageInRange > 1): ?>
+                <? $page = 1; $addDots = true; ?>
+            <? endif ?>
+                <li<? if ($page == $this->current) echo ' class="active"' ?>><a href="<?= $this->url(array('page'=>$page)+$params, $route).$queryString; ?>">
+                    <?= $page; ?>
+                </a></li>
+            <? if($addDots): ?>
+                <li><span>...</span></li>
+            <? endif ?>
+        <? endforeach; ?>
+
+        <? if (isset($this->next) && $this->next): ?>
+            <li class="next"><a href="<?= $this->url(array('page'=>$this->next)+$params, $route).$queryString; ?>">następna</a></li>
+        <? endif ?>
+
+        <? if (isset($this->last) && $this->last != $this->current && $this->pageCount > $countPagesInRange):?>
+            <li class="next"><a href="<?= $this->url(array('page' => $this->last) + $params, $route) . $queryString; ?>">ostatnia</a></li>
+        <? endif ?>
+
+        <? if ($this->pageCount > $countPagesInRange): ?>
+            <form action="javascript: void(null);" class="gotoPage" style="display: inline;">
+                <label for="gotoPage">idź do strony</label>
+                <input type="text" name="page" id="gotoPage" value="<?= $this->current ?>" style="width: 30px;" />
+                <? if ($this->getParams && is_array($this->getParams) && !empty($this->getParams)): ?>
+                    <? foreach ($this->getParams as $key=>$val): ?>
+                        <input type="hidden" name="<?= $key ?>" value="<?= $this->escape($val) ?>" />
+                    <? endforeach ?>
+                <? endif ?>
+                <input class="btn rad5" type="submit" value="&raquo;" style="display: inline;" />
+            </form>
+        <? endif ?>
+    </div> <!-- pagination ends -->
+    
+    <? $this->inlineScript()->appendScript($this->render('pagination.js'));?>
+
+<?
+endif;
+
+/*
+$relPagingDivId = 'rel_paging_div_'. uniqid();
+echo '<div id="'. $relPagingDivId .'"></div>';
+?>
+<script type="text/javascript">
+/ *
+ * zliczanie wszystkich elementow na stronie
+ * w tym miejscu, poniewaz w pagingu mamy wszystkie potrzebne do tego informacje
+ * informacje te umieszczane sa w gornej czesci listy/boxu z elementami
+ * /
+var filterForm = $('#<?= $relPagingDivId; ?>').siblings('form.form.search');
+filterForm.closest('form.form.search').before('<span style="font-weight: bold;">Wyświetlam elementy: &nbsp; <?= $this->firstItemNumber .'-'. $this->lastItemNumber .' &nbsp;z '. $this->totalItemCount; ?> </span>');
+</script>
+
+*/
+?>

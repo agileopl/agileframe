@@ -1,0 +1,80 @@
+body {
+    scrollbar-3dlight-color:#F0F0EE;
+    scrollbar-arrow-color:#676662;
+    scrollbar-base-color:#F0F0EE;
+    scrollbar-darkshadow-color:#DDDDDD;
+    scrollbar-face-color:#E0E0DD;
+    scrollbar-highlight-color:#F0F0EE;
+    scrollbar-shadow-color:#F0F0EE;
+    scrollbar-track-color:#F5F5F5;
+    padding:0;
+    margin:8px 8px 0 8px;
+    background-color: white;
+}
+
+header {
+    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 15px;
+}
+
+.dragFiles {
+    border: 1px solid silver;
+    width: 322px;
+    float: left;
+    height: 105px;
+    position: relative;
+    background-color: #c8c8c8;
+    color: #787878;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+.dragFiles .icon-plus {
+    position: absolute;
+    top: 30px;
+    left: 55px;
+    font-size: 50px;
+    font-weight: 100;
+}
+.dragFiles .icon-camera {
+    position: absolute;
+    top: 35px;
+    left: 106px;
+}
+.dragFiles span {
+    position: absolute;
+    top: 30px;
+    left: 158px;
+    width: 74px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px; 
+}
+
+.orFiles {
+    text-align: center;
+    width: 86px;
+    float: left;
+    height: 105px;
+    line-height: 105px;
+}
+.addFiles {
+    border: 1px solid silver;
+    width: 224px;
+    float: left;
+    height: 105px;
+    background-color: white;
+    color: #787878;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    text-align: center;
+    
+}
+.addFiles span{
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}

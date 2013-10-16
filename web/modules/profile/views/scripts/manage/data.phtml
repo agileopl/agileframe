@@ -1,0 +1,74 @@
+
+<? $this->form->setAttrib('id', 'jUserForm'); ?>
+
+<form id="<?= $this->form->getId(); ?>"
+      action="<?= $this->form->getAction(); ?>"
+      method="<?= $this->form->getMethod(); ?>"
+      class="form-horizontal"
+      enctype="<?= $this->form->getEnctype(); ?>"
+      horizontal="1" 
+      >
+    
+    <h2><?= $this->translate('profile_data_personal');?></h2>
+    <fieldset>
+        
+        <? if($this->profileUser->isSocFacebook()):?>
+        <div class="control-group"><label class="control-label"></label>
+            <div class="controls">
+                <?= $this->translate('profile_fb_info');?>
+            </div>
+        </div>
+        <? endif;?>
+
+        
+        <?= $this->form->usr_email->render(); ?>
+        
+        <?= $this->form->usr_nick->render(); ?>
+        
+        <?= $this->form->usr_name->render(); ?>
+
+        <?= $this->form->usr_surname->render(); ?>
+
+        <?= $this->form->usr_avatar->render(); ?>
+        
+        <?if(isset($this->form->uploader_usr_avatar)):?>
+            <?= $this->form->uploader_usr_avatar->render(); ?>
+        <?endif;?>
+    </fieldset>
+    
+    <h2><?= $this->translate('profile_data_localization');?></h2>
+    <fieldset horizontal="1">
+        
+        <?= $this->formGeoMap($this->form, 'usr');?>
+        
+    </fieldset>
+    
+    <?= $this->form->getDisplayGroup("zfBootstrapFormActions")->render(); ?>
+    
+</form>
+
+<?= $this->jForm('jUserForm'); ?>
+
+<? $this->inlineScript()->appendScript($this->render('_inc/codeAndCommuny.js')); ?>
+
+<? $this->inlineScript()->appendScript("
+    $('#uploader_usr_avatar').css('display', 'none');
+    $('#uploader_usr_avatar').after('<a class=\"btn btn-primary\" onclick=\"$(\'input[id=uploader_usr_avatar]\').click()\">".$this->translate('profile_data_choose')."</a><span id=\"jAvatarInputFileInfo\" style=\"margin-left: 5px;\"></span>');
+    $('#uploader_usr_avatar').live('change', function () {
+        path = $(this).val();
+        var file = path.substr(path.lastIndexOf('\\\\') + 1);
+        $('#jAvatarInputFileInfo').html(file);
+    });
+    
+    if($('#jContainerusr_avatar img').length) {
+        $('#jContainerusr_avatar img').after('<a class=\"btn btn-danger\" style=\"margin-left: 5px;\" onclick=\"UD_unsetAvatar();\">".$this->translate('profile_data_unlink')."</a>');
+    }
+    
+    function UD_unsetAvatar()
+    {
+        $('#jContainerusr_avatar').html('');
+        $('#usr_avatar').val(''); 
+        return false;
+    }
+        
+"); ?>

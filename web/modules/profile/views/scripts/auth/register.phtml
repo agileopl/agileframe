@@ -1,0 +1,14 @@
+<h1><?= $this->translate('profile_register');?></h1>
+
+<? if(!empty($this->status)) : ?>
+   <? if($this->status == 'account_create') : ?>
+   <div class="alert alert-success"><?= $this->translate('profile_create_account_success');?></div>
+   <? elseif($this->status == 'duplicate') : ?>
+   <div class="alert alert-error"><?= $this->translate('profile_create_account_duplicate', '/profile/auth/forgotpass');?></div>
+   <? else :?>
+   <div class="alert alert-error"><?= $this->translate('profile_create_account_error');?></div>
+   <? endif; ?>   
+<? else :?>
+    <?= $this->form; ?>
+    <?= $this->jForm('jAdminForm'); ?>
+<? endif; ?>

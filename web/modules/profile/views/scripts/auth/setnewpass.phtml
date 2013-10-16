@@ -1,0 +1,35 @@
+
+<h1>Ustawianie nowego hasła</h1>
+
+<?if($this->status):?>
+    <?if($this->status == 'ok'):?>
+    <div class="alert alert-success">
+        Nowe hasło zostało ustawione poprawnie.
+    </div>
+    <?else:?>
+    <div class="alert alert-error">
+    Błąd ustawiania nowego hasła. Proszę spróbować powtórzyć cały proces od nowa. Jeżeli się nie uda proszę skontaktuj się z nami.
+    </div>
+    <?endif;?>
+    <p>
+        <a class="btn btn-info" href="/profile/auth/login">Zaloguj się</a>
+        <a class="btn btn-info" href="/profile/auth/login">Strona główna</a>
+    </p>
+
+<?endif;?>
+
+<?if(!empty($this->form)):?>
+    <? $this->form->setAttrib('id', 'jSetNewPassForm'); ?>
+    <?= $this->form; ?>
+    <?= $this->jForm('jSetNewPassForm', array('rules' => '{
+                re_pass: {
+                    equalTo: "#usr_pass"
+                }}')); ?>
+    
+    <? $this->inlineScript()->appendScript("
+    $(document).ready(function() {
+        $('#usr_email').focus();
+    });
+    "); ?>
+    
+<?endif;?>

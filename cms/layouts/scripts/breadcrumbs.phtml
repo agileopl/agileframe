@@ -1,0 +1,19 @@
+<ul class="breadcrumb">
+
+<?
+
+$pagesCount = count($this->pages);
+$index = 0;
+foreach ($this->pages as $page) {
+    $index++;
+    if ($index == $pagesCount) {
+        $page->setParams(Zend_Controller_Front::getInstance()->getRequest()->getQuery());
+        echo '<li class="active">' . (!empty($page->icon) ? '<i class="'.$page->icon.'"></i> ' : '')
+            .$this->translate($page->getLabel()) . '</li>';
+    } else {
+        echo '<li><a href="' . $page->getHref() . '"'.( $index == 1 ? ' class="tip-bottom"' : '').' title="' . $this->translate($page->getLabel()) . '">' . $this->translate($page->getLabel()) . '</a> <span class="divider">/</span></li>';
+    }
+}
+
+?>
+</ul>

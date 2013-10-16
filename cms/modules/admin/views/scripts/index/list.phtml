@@ -1,0 +1,38 @@
+
+<p class="pull-right">
+<a class="btn btn-primary" href='/admin/index/create'><i class="icon-plus icon-white"></i> <?= $this->translate('admin_create_new');?></a>
+</p>
+
+<h1><?= $this->translate('admin_list');?></h1>
+
+<? if(count($this->admins) > 0) : ?>
+
+    <div class="widget-box">
+        <div class="widget-content nopadding">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th><i class="icon-resize-vertical"><?= $this->translate('admin_list_id');?></i></th>
+                        <th><?= $this->translate('admin_list_name');?></th>
+                        <th><?= $this->translate('admin_list_login');?></th>
+                        <th class="hidden-phone"><?= $this->translate('admin_list_status');?></th>
+                        <th><?= $this->translate('admin_list_role');?></th>
+                        <th class="hidden-phone"><?= $this->translate('admin_list_group');?></th>
+                        <th class="hidden-phone"><?= $this->translate('admin_list_email');?></th>
+                        <th class="hidden-phone"><?= $this->translate('admin_list_create_date');?></th>
+                        <th><?= $this->translate('list_actions');?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <? $this->partialLoop()->setObjectKey('item'); ?>
+                <?= $this->partialLoop('index/_inc/admin-row.phtml', $this->admins->getCurrentItems()); ?>
+                </tbody>
+            </table>                            
+        </div>
+    </div>
+    
+    <?= $this->paginationControl($this->admins); ?>
+    
+<? else :// if ($this->pager->count()) ?>
+    <div class="alert alert-info alert-block"><?= $this->translate('pager_no_results');?></div>
+<? endif; ?>

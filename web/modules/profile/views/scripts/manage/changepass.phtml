@@ -1,0 +1,10 @@
+
+<? $this->form->setAttrib('id', 'jPassForm'); ?>
+<?= $this->form; ?>
+<?= $this->jForm('jPassForm', array(
+                'rules' => '{
+                                re_pass: {
+                                  equalTo: "#adm_pass"
+                                }
+                            }'             
+            )); ?>

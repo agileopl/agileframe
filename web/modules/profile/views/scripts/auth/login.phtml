@@ -1,0 +1,26 @@
+<h1>Logowanie</h1>
+<div class="row-fluid">
+    <div class="span6">
+        
+        <p>Zaloguj się używając swojego konta FB</p>
+        
+        <p><a class="btn btn-primary" href="/profile/auth/fblogin"><i class="icon-facebook-sign"></i>  Zaloguj się</a></p>
+        
+    </div>
+
+    <div class="span6" style="border-left: 1px solid #eeeeee;padding-left: 20px">
+
+        <?= $this->form; ?>
+        <?= $this->jForm('jLoginForm'); ?>
+        
+        <? $this->inlineScript()->appendScript("
+        $(document).ready(function() {
+            $('#usr_email').focus();
+            
+            $('#forgotpass').click(function () {
+                location.href='/profile/auth/forgotpass';
+            });
+        });
+        "); ?>
+    </div>
+</div>

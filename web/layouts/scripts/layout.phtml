@@ -1,0 +1,287 @@
+<?= $this->doctype('HTML5'); ?>
+<head>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <?
+
+    $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html; charset=UTF-8')->appendHttpEquiv('Content-Language', 'pl_PL');
+
+    $pages = $this->navigation()->findAllBy('active', true);
+    $activePage = end($pages);
+    if ($activePage && !$this->headTitle()->count()) {
+
+        if (isset($activePage->id) && $activePage->id != 'menu_home') {
+            $addPageInfo = '';
+            if ($page = Zend_Controller_Front::getInstance()->getRequest()->getParam('page')) {
+                $addPageInfo = $this->translate('seo_page_info', $page);
+            }
+            $this->headTitle(strip_tags(htmlspecialchars_decode($this->translate($activePage->get('label')) . $addPageInfo, ENT_QUOTES)));
+        }
+
+        while ($parent = $activePage->getParent()) {
+            if (isset($parent->id) && $parent->id != 'menu_home') {
+                $this->headTitle()->append(strip_tags(htmlspecialchars_decode($this->translate($parent->get('label')), ENT_QUOTES)));
+                $activePage = $parent;
+            } else {
+                break;
+            }
+        }
+    }
+
+    $this->headTitle()->setSeparator(' - ');
+    echo $this->headTitle();
+
+    echo $this->headMeta();
+
+    include_once           realpath(dirname(__FILE__) . '/_headLS.php');
+
+    echo $this->headLink();
+    ?>
+
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="<?= STATIC_PATH?>/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <!--[if gte IE 9]>
+    <style type="text/css">
+    .gradient {
+    filter: none;
+    }
+    </style>
+    <![endif]-->
+
+    <? if(empty(Zend_Registry::get('config')->offlineMode)) :
+    ?>
+    <link href='http://fonts.googleapis.com/css?family=Dosis&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <?endif; ?>
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+
+    <header>
+        <div class="container" id="top">
+
+            <div id="jProfileInfo" class="top-profile-info pull-right"></div>
+            <? $this->inlineScript()->appendScript("
+                
+                profile = $.cookies.get('" . Zend_Registry::get('config')->globals->cookie->profileName . "');
+                if(profile) {
+                    
+                    html = '<span id=\"jNewMassageAlert\"></span><a href=\"/profile/manage/data\">';
+                    if(profile.login_by == 'facebook') {
+                        html += '<i class=\"icon-facebook-sign\"></i> ';
+                    }
+                    html += profile.name + '</a> - <a href=\"/profile/auth/logout\">" . $this->translate('profile_logout') . "</a>';
+                    $('#jProfileInfo').html(html);
+                     
+                } else {
+                    $('#jProfileInfo').html('<a href=\"/profile/auth/fblogin\"><a href=\"#loginModal\" data-toggle=\"modal\"><i class=\"icon-user\"></i> " . $this->translate('profile_login') . "</a>');
+                }
+                
+                ");
+            ?>
+
+
+            <h1 id="logo"><a href="/">AGILE FRAME</a></h1>
+
+            <!-- Modal -->
+            <div id="loginModal" class="modal hide fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+
+                            <h4 id="modal-title"><?= $this->translate('profile_login_title'); ?></h4>
+                            <?= $this->translate('profile_you_are_new'); ?> <a href="#registerModal" id="jShowRegisterHideLogin"><?= $this->translate('profile_join'); ?></a>
+
+                        </div>
+                        <div class="modal-body">
+                            
+                                <div class="row-fluid">
+                                    <div class="span6">
+    
+                                        <p>
+                                            <?= $this->translate('profile_join_by_facebook'); ?>
+                                        </p>
+    
+                                        <p>
+                                            <a class="btn btn-primary" href="/profile/auth/fblogin"><i class="icon-facebook-sign"></i> <?= $this->translate('profile_login'); ?></a>
+                                        </p>
+    
+                                    </div>
+    
+                                    <div class="span6" style="border-left: 1px solid #eeeeee;padding-left: 20px">
+    
+                                        <form id="jLoginFormModal" method="post" action="/profile/auth/login">
+    
+                                            <p>
+                                                <input placeholder="<?= $this->translate('usr_email'); ?>" type="text" name="usr_email" id="usr_email" value="" class="required email">
+                                            </p>
+                                            <p>
+                                                <input placeholder="<?= $this->translate('usr_pass'); ?>" type="password" name="usr_pass" id="usr_pass" value="" class="required">
+                                            </p>
+    
+                                            <p>
+                                                <input type="submit" name="submit" id="submit" value="<?= $this->translate('profile_login_submit'); ?>" icon="ok" whiteIcon="1" iconPosition="right" class="btn btn-success">
+                                            </p>
+    
+                                            <p>
+                                                <a class="btn btn-link" href="/profile/auth/forgotpass"><?= $this->translate('profile_button_forgotpass'); ?></a>
+                                            </p>
+    
+                                        </form>
+    
+                                    </div>
+                                </div>
+
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <!-- Modal -->
+            <div id="registerModal" class="modal hide fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title"><?= $this->translate('profile_register'); ?></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row-fluid">
+                                <div class="span6">
+
+                                    <p>
+                                        <?= $this->translate('profile_register_by_fb'); ?>
+                                    </p>
+
+                                    <p>
+                                        <a class="btn btn-primary" href="/profile/auth/fblogin"><i class="icon-facebook-sign"></i> <?= $this->translate('profile_register'); ?></a>
+                                    </p>
+
+                                </div>
+
+                                <div class="span6" style="border-left: 1px solid #eeeeee;padding-left: 20px">
+
+                                    <form id="jUserFormModal" method="post" action="/profile/auth/register">
+
+                                        <p>
+                                            <input placeholder="<?= $this->translate('profile_register_name'); ?>" type="text" name="usr_name" id="usr_name" value="" class="required">
+                                        </p>
+                                        <p>
+                                            <input placeholder="<?= $this->translate('usr_email'); ?>" type="text" name="usr_email" id="usr_email" value="" class="required email">
+                                        </p>
+
+                                        <p>
+                                            <input type="submit" name="submit" id="submit" value="<?= $this->translate('profile_register_go'); ?>" icon="ok" whiteicon="1" iconposition="right" class="btn btn-success">
+                                        </p>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <?= $this->jForm('jLoginFormModal'); ?>
+            <?= $this->jForm('jUserFormModal'); ?>
+            <?
+            $this->inlineScript()->appendScript("
+            $('#jShowRegisterHideLogin').click(function () {
+            $('#loginModal').modal('hide');
+            $('#registerModal').modal('show');
+            return false;
+            });
+            ");
+            ?>
+
+        </div>
+
+        <div class="container">
+            <div class="navbar navbar-inverse">
+                <div class="navbar-inner">
+            
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="nav-collapse collapse">
+                    <?= $this->navigation(); ?>
+                      
+                    <form id="topSearch" class="navbar-search pull-right" action="<?= $this->url(array(),'search');?>">
+                    
+                        <div class="input-append">
+                          <input type="text" name="q" placeholder="Szukaj...">
+                          <span class="add-on"><i class="icon-search"></i></span>
+                        </div>
+                    </form>
+
+                  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </header>
+
+    <div class="container">
+        <div id="layoutContainer">
+
+            <?= $this->navigation()->breadcrumbs(); ?>
+
+            <?
+            if ($this->layout()->layoutConfig && !empty($this->layout()->layoutConfig->layout)) :
+                echo $this->layoutColorer($this->layout()->layoutConfig->layout, array(
+                    '_contentColorerCallback' => function(Zend_Config $box, $content, $self)
+                    {
+                        return $content;
+                    },
+                    '_rowColorerCallback' => function(Zend_Config $row, $content, $self)
+                    {
+                        return $content;
+                    }
+
+                ));
+            else :
+                echo $this->layout()->content;
+            endif;
+            ?>
+
+        </div>
+    </div>
+
+    <footer class="bs-footer" role="contentinfo">
+        <div class="container">
+            <div>
+                <div class="row-fluid">
+                    <div class="span4">
+
+
+                    </div>
+                    <div class="span8">
+                        <a href="/">AGILE FRAME</a>
+                        <?= Zend_Registry::get('config')->globals->copyright; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <?= $this->headScript(); ?>
+    <?= $this->inlineScript() ?>
+
+</body>
+</html>

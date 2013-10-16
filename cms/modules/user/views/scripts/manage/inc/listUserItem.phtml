@@ -1,0 +1,31 @@
+<tr>
+    <td>
+        <span class="badge badge-<?= $this->item->isActive() ? 'success' : 'important';?>"><?= $this->item->id;?></span>
+    </td>
+    <td>
+
+        <? if(!empty($this->item->avatar)) : ?>
+            <img class="pull-left" src="<?= $this->mdsImage($this->item->avatar, array('resize' => '100x100'));?>" />
+        <? endif; ?>
+        
+        <?if($this->item->isTypeStandard()):?>
+        <i class="icon-user"></i>
+        <?endif;?>
+        <?if($this->item->isSocFacebook()):?>
+        <i class="icon-facebook-sign"></i>
+        <?endif;?>
+        <?= $this->item->name . ' ' . $this->item->surname;?>
+        
+    </td>
+    <td>
+        <?= $this->item->email;?>
+    </td>
+    <td>
+        <?= $this->formDatetime($this->item->create_date);?>
+    </td>
+
+    <td class="actions">
+        <a class="btn btn-primary" href="/user/manage/user.item/id/<?= $this->item->id;?>"><?= $this->translate('list_navi_details');?></a>
+        <a class="btn btn-info" target="_blank" href="<?= $this->item->getPublicUrl(true);?>"><?= $this->translate('list_navi_preview');?></a>
+    </td>
+</tr>

@@ -1,0 +1,79 @@
+
+<header><h3><?= $this->translate('attachment_tinyplugin_join_'.strtolower($this->type).'_h1');?></h3></header>
+
+<form id="jInsertAttachmentForm" action="/attachment/user.tinyplugin/image.save" method="post"<?= empty($this->attach) ? ' class="hide"' : '';?>>
+        
+    <input type="hidden" id="jAttId" name="att_id" value="<?= $this->attach ? $this->attach->id : '';?>"/>
+    
+    <div class="row-fluid">
+
+        <div id="jFirstAttachment" class="span2">
+        <? if($this->attach) :?>
+            <img src="<?= $this->mdsImage($this->attach, array('resize' => '200x200'));?> "/>
+        <? endif;?>
+        </div>
+        
+        <div class="span10">
+            <p><textarea class="input-xxlarge" id="jFirstDescription" name="att_description"><? if($this->attach) :?><?= $this->attach->description;?><?endif;?></textarea></p>
+            
+            <p>
+            Równaj: <select id="jImgAlign"<?= (!empty($this->gallery) && count($this->gallery) > 0 ? ' class="hide"' : '');?>>
+                <option<?= $this->align == 'left' ? ' selected="selected"' : ''?> value="left"><?= $this->translate('tinyplugin_align_left');?></option>
+                <option<?= $this->align == 'right' ? ' selected="selected"' : ''?> value="right"><?= $this->translate('tinyplugin_align_right');?></option>
+                <option<?= $this->align == 'center' ? ' selected="selected"' : ''?> value="center"><?= $this->translate('tinyplugin_align_center');?></option>
+            </select>
+            </p>
+        </div>
+    </div>
+
+    <div id="jGallery"<?= (empty($this->gallery) ? ' class="hide"' : '');?>>
+
+        <table class="table table-striped">
+            <tbody>
+            <?
+            if(!empty($this->gallery)) :
+                foreach($this->gallery as $item) :?>
+                <tr>
+                    <td><input name="att_item[<?= $item->id?>]" type="checkbox" checked="checked" /></td>
+                    <td><img src="<?= $this->mdsImage($item, array('resize' => '100x100'));?> "/></td>
+                    <td><textarea name="att_desc[<?= $item->id?>]" class="input-xxlarge"><?= $this->escape($item->description);?></textarea></td>
+                </tr>
+            <?  endforeach;
+            endif;?>
+            </tbody>
+        </table>
+        
+    </div>
+
+    <button type="submit" class="btn btn-success">Wstaw do edytora</button>
+
+    <? $labelType = (!empty($this->type) ? '_'.strtolower($this->type) : '');?>
+    <a class="btn btn-primary jAddFileButton" onclick="$('input[id=fileupload]').click()"><?= !empty($this->attach) ? $this->translate('att_uploader_type'.$labelType.'_button_add_more') : $this->translate('att_uploader_type'.$labelType.'_button_add');?></a>
+
+    <a class="btn btn-primary jChooseFileButton" onclick="agiIframePopoverShow('', '/attachment/user.tinyplugin/images.choose');"><?= !empty($this->attach) ? $this->translate('att_chooser_type'.$labelType.'_button_add_more') : $this->translate('att_chooser_type'.$labelType.'_button_add');?></a>
+
+</form>
+
+<div id="jInsertAttachmentInit"<?= (!empty($this->attach) ? ' class="hide"' : '');?>>
+    <a class="btn btn-primary jAddFileButton" onclick="$('input[id=fileupload]').click()"><?= !empty($this->attach) ? $this->translate('att_uploader_type'.$labelType.'_button_add_more') : $this->translate('att_uploader_type'.$labelType.'_button_add');?></a>
+    <a class="btn btn-primary jChooseFileButton" onclick="agiIframePopoverShow('', '/attachment/user.tinyplugin/images.choose');"><?= !empty($this->attach) ? $this->translate('att_chooser_type'.$labelType.'_button_add_more') : $this->translate('att_chooser_type'.$labelType.'_button_add');?></a>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+<input style="display: none;" id="fileupload" type="file" name="uploader_att_url" data-url="/attachment/user.tinyplugin/upload.file/type/image/parentId/<?= $this->attach->id;?>" multiple>
+</form>
+
+<div id="jProgress" class="progress uploadProgress">
+    <div class="bar" style="width: 0%;"></div>
+</div>
+
+<? $this->headScript()->appendFile('/file_uploader/js/jquery.iframe-transport.js');?>
+<? $this->headScript()->appendFile('/file_uploader/js/jquery.fileupload.js');?>
+
+<? $this->inlineScript()->appendScript($this->render('user-tinyplugin/uploader.js')); ?>
+<? $this->inlineScript()->appendScript($this->render('user-tinyplugin/image.js')); ?>
+
+
+
+
+

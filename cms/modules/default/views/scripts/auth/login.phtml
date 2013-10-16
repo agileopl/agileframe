@@ -1,0 +1,9 @@
+
+<?= $this->form; ?>
+<?= $this->jForm('jLoginForm'); ?>
+
+<? $this->inlineScript()->appendScript("
+$(document).ready(function() {
+    $('#adm_login').focus();
+});
+"); ?>

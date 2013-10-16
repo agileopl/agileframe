@@ -1,0 +1,24 @@
+<ul class="breadcrumb">
+
+<?
+if (!function_exists('_brpageUrl')) {
+    function _brpageUrl(Zend_Navigation_Page $page) 
+    {
+        return (!empty($page->node) && $page->node instanceof Marrow_Node) ? $page->node->getPublicUrl() : $page->getHref();
+    }
+}
+
+$pagesCount = count($this->pages);
+$index = 0;
+foreach ($this->pages as $page) {
+    $index++;
+    if ($index == $pagesCount) {
+        $page->setParams(Zend_Controller_Front::getInstance()->getRequest()->getQuery());
+        echo '<li class="active">' . $this->translate($page->getLabel()) . '</li>';
+    } else {
+        echo '<li><a href="' . _brpageUrl($page) . '"'.( $index == 1 ? ' class="tip-bottom"' : '').' title="' . $this->translate($page->getLabel()) . '">' . $this->translate($page->getLabel()) . '</a> <span class="divider">/</span></li>';
+    }
+}
+
+?>
+</ul>

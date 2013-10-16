@@ -1,0 +1,71 @@
+--- #acl w CMS
+
+acl:
+  
+  #
+  # Role
+  #
+  rules:
+    - 
+      id: guest
+    - 
+      id: user
+      parent: guest
+    - 
+      id: admin
+      parent: user
+  
+  #
+  # Zasoby
+  #
+  resources:
+    
+    - mc-default-error
+    - mc-default-index
+    - mc-default-test
+    - mc-default-auth
+    - mc-default-service
+    - mc-default-static
+    
+    - mc-profile-auth
+    - mc-profile-index
+    - mc-profile-manage
+    - mc-profile-profile
+    - mc-profile-mail
+    - mc-profile-manage.mail
+    
+    - mc-search-index
+        
+  #
+  # Dostęp
+  #
+  accesses:
+    
+    all:
+      - 
+        resource: mc-default-error
+      - 
+        resource: mc-default-test
+        
+    guest:
+      - 
+        resource: mc-default-index
+      -
+        resource: mc-default-static
+      - 
+        resource: mc-profile-auth
+      -
+        resource: mc-profile-profile
+      -
+        resource: mc-profile-index
+      -
+        resource: mc-search-index
+        
+    user:
+      - 
+        resource: mc-default-test
+        privilages:
+          - index
+      -
+        resource: mc-profile-manage
+        

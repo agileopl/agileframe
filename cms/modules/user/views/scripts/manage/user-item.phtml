@@ -1,0 +1,133 @@
+
+<?
+$this->userForm->setAttrib('id','jBlogItemForm');
+//echo $this->userForm;
+?>
+
+<form id="<?= $this->userForm->getId(); ?>"
+      action="<?= $this->userForm->getAction(); ?>"
+      method="<?= $this->userForm->getMethod(); ?>"
+      class="form-horizontal"
+      enctype="<?= $this->userForm->getEnctype(); ?>"
+      horizontal="1" 
+      >
+    <input name="id" type="hidden" value="<?= $this->user->id; ?>"/>
+    
+    <a class="pull-right btn btn-info" target="_blank" href="<?= $this->user->getPublicUrl(true);?>"><?= $this->translate('user_preview');?></a>
+    
+    <h2><?= $this->translate('user_h2_data');?></h2>
+    <fieldset horizontal="1">
+        
+        <div class="control-group">
+            <label class="control-label"><?= $this->translate('user_user');?>:</label>
+            <div class="controls">
+                <label class="info">
+                    
+                    <? if(!empty($this->user->avatar)) : ?>
+                        <div><img class="img-polaroid" src="<?= $this->mdsImage($this->user->avatar, array('resize' => '150x150'));?>" /></div>
+                    <? endif; ?>
+                    <?if($this->user->isTypeStandard()):?>
+                    <i class="icon-user"></i>
+                    <?endif;?>
+                    <?if($this->user->isSocFacebook()):?>
+                    <i class="icon-facebook-sign"></i>
+                    <?endif;?>
+                    <?= $this->user;?>
+                    
+                    <?if(!empty($this->user->description)):?>
+                        <p><?=$this->user->description?></p>
+                    <?endif;?>
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"><?= $this->translate('user_email');?>:</label>
+            <div class="controls">
+                <label class="info"><?= $this->user->email;?></label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"><?= $this->translate('user_nick');?>:</label>
+            <div class="controls">
+                <label class="info"><?= $this->user->nick;?></label>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label"><?= $this->translate('user_status');?>:</label>
+            <div class="controls">
+                <label class="info">
+                    <span class="badge badge-<?= $this->user->isActive() ? 'success' : 'important';?>"><?= $this->translate('user_status_'.strtolower($this->user->status));?></span>
+                    <button type="button" class="btn btn-link" onclick="$('#jChangeStatus').show();$(this).hide()"><?= $this->translate('user_change_status');?></button>
+                    <a href="/user/manage/user.delete/id/<?= $this->user->id;?>" class="btn btn-link" onclick="if(confirm('<?= $this->translate('object_delete_confirm_alert');?>')) return true; else return false;"><?= $this->translate('user_delete_account');?></a>
+                </label>
+            </div>
+        </div>
+        
+        <div id="jChangeStatus" class="hide">
+        <?= $this->userForm->usr_status->render(); ?>
+        </div>
+    </fieldset>
+
+    <? if(!empty($this->user->geo_zoom)) : ?>
+    <h2><?= $this->translate('user_localization');?></h2>
+    <fieldset horizontal="1">
+    
+        <div class="control-group">
+            <label class="control-label">&nbsp;</label>
+            <div class="controls">
+                <label class="info">
+                    <img src="http://maps.googleapis.com/maps/api/staticmap?center=<?=$this->user->geo_lat;?>,<?=$this->user->geo_lng;?>&zoom=<?=$this->user->geo_zoom;?>&size=400x200&maptype=roadmap&markers=color:blue%7C<?=$this->user->geo_lat;?>,<?=$this->user->geo_lng;?>&sensor=false" />
+                </label>
+            </div>
+        </div>
+
+    
+    </fieldset>
+    <? endif;?>
+    
+    <h2><?= $this->translate('user_stats');?></h2>
+    <fieldset horizontal="1">
+    
+        <div class="control-group">
+            <label class="control-label"><?= $this->translate('user_create_date');?>:</label>
+            <div class="controls">
+                <label class="info">
+                    <?= $this->formDatetime($this->user->create_date);?>
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label"><?= $this->translate('user_update_date');?>:</label>
+            <div class="controls">
+                <label class="info">
+                    <?= $this->formDatetime($this->user->update_date);?>
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label"><?= $this->translate('user_last_activity_date');?>:</label>
+            <div class="controls">
+                <label class="info">
+                    <?= $this->formDatetime($this->user->last_activity);?>
+                </label>
+            </div>
+        </div>
+    
+    </fieldset>
+
+    <?= $this->userForm->getDisplayGroup("zfBootstrapFormActions")->render(); ?>
+
+</form>
+    
+<?
+
+echo $this->jForm('jBlogItemForm');
+$this->inlineScript()->appendScript("
+    $('#return').data('back-url', '".(!empty($this->returnListUrl) ? $this->returnListUrl : '/user/manage/users.list')."');
+");
+
+
+

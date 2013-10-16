@@ -1,0 +1,118 @@
+
+<div id="profile-top">
+    <div<?if(!empty($this->profileUser->bg)):?> id="profile-bg" style="background-image: url('<?= $this->mdsImage($this->profileUser->bg, array('resize'=>'1008x325', 'crop' => 'mt'));?>')"<?endif;?>>
+        <div class="row-fluid">
+            <div class="span2" id="profile-avatar">
+                <? if(!empty($this->profileUser->avatar)) : ?>
+                <span class="userAvatar userAvatar-2x ">
+                    <img src="<?= $this->mdsImage($this->profileUser->avatar, array('resize' => '150x150', 'crop' => 'mt'));?>" />
+                    <? if($this->profileUser->isSocFacebook()) : ?>
+                    <i class="icon-facebook-sign"></i>
+                    <?endif;?>
+                </span>
+                    
+                <? endif;?>
+            </div>
+            <div class="span10">
+                
+                <div id="profile-name">
+                <h1><?= $this->profileUser->name?> <?= $this->profileUser->surname?></h1>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+
+    <? if(!empty($this->profileNavigation)) : ?>
+    <div class="navbar"><div class="navbar-inner">
+    <ul class="nav">
+    <? foreach($this->profileNavigation as $page) :?>
+        <li<?= $page->isActive() ? ' class="active"' : '';?>>
+            <a href="<?= $page->getHref();?>"><?= $this->translate($page->getLabel());?></a>
+        </li>
+    <? endforeach; ?>
+    </ul>
+    </div></div>
+    <? endif; ?>
+
+
+</div>
+
+<? 
+/* tothink czy na pewno sprawdzać czy jest dany koleś w obserwowanych ? */
+$this->inlineScript()->appendScript("
+    
+$(document).ready(function() {
+                    
+    profile = $.cookies.get('".Zend_Registry::get('config')->globals->cookie->profileName."');
+    if(profile) {
+        
+        if(profile.id == ".$this->profileUser->id.") {
+            $('#jManageOwnData').show();
+            $('#jManageOwnData').css('display','inline-block');
+        } else {
+            $.get('/profile/manage/check.observed', {id: ".$this->profileUser->id."}, function(res) {
+                if(res.status == 'yes') {
+                    $('#jUserRemObserve').show();
+                    $('#jUserRemObserve').css('display','inline-block');
+                } else {
+                    $('#jUserObserve').show();
+                    $('#jUserObserve').css('display','inline-block');
+                }
+            });
+        }
+        
+    }
+   
+    $('#jUserObserve').click(function (){
+        $('#jUserObserve').attr('disabled', 'disabled');
+        $.get('/profile/manage/set.observed', {id: ".$this->profileUser->id."}, function(res) {
+            if(res.status == 'ok') {
+                $('#jManageAlerts').html('<div class=\"alert\">Użytkownik został dodany do obserwowanych</div>');
+            } else {
+                $('#jManageAlerts').html('<div class=\"alert alert-error\">Błąd systemu - proszę spróbować poźniej</div>');
+            }
+            $('#jManageAlerts > div').delay(4000).fadeOut();
+            $('#jUserObserve').hide();
+            $('#jUserRemObserve').show();
+            $('#jUserRemObserve').css('display','inline-block');
+        });
+        return false;
+    });
+    
+    $('#jUserRemObserve').click(function (){
+        $('#jUserRemObserve').attr('disabled', 'disabled');
+        $.get('/profile/manage/unset.observed', {id: ".$this->profileUser->id."}, function(res) {
+            if(res.status == 'ok') {
+                $('#jManageAlerts').html('<div class=\"alert\">Użytkownik został usunięty z obserwowanych</div>');
+            } else {
+                $('#jManageAlerts').html('<div class=\"alert alert-error\">Błąd systemu - proszę spróbować poźniej</div>');
+            }
+            $('#jManageAlerts > div').delay(4000).fadeOut();
+            $('#jUserRemObserve').hide();
+            $('#jUserObserve').show();
+            $('#jUserObserve').css('display','inline-block');
+        });
+        return false;
+    });
+    
+    
+});    
+
+"); ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+
+<h1><?= $this->translate('att_upload_single_type'.(!empty($this->type) ? '_'.strtolower($this->type) : '').'_h1_add');?></h1>
+
+<? $this->form->setAttrib('id', 'jUploaderForm'); ?>
+<?= $this->form; ?>
+
+<? $this->jForm('jUploaderForm'); ?>
+
+<? $this->inlineScript()->appendScript($this->render('index/upload-single.js')); ?>
+
