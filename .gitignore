@@ -1,1 +1,15 @@
-.project
+.projectdata
+/cache/cms/*
+data/cache/mds/*
+data/cache/purifier/*
+data/cache/scripts/*
+data/cache/web/*
+data/cache/web-pages/*
+data/logs/*
+data/lucene/*
+data/sessions/cms/*
+data/sessions/web/*
+data/tmp/*
+data/upload/*
+mds/public/f/*
+mds/public/p/*
