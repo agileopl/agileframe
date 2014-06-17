@@ -4,6 +4,7 @@
  * @copyright  Copyright (c) 2005-2013 Agileo.pl Mirosław Kapinos (http://www.agileo.pl)
  * @license    MIT license
  */
+
 require_once 'Agileo/Bootstrap/Core.php';
 
 class Bootstrap extends Agileo_Bootstrap_Core
